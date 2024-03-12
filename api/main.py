@@ -27,18 +27,18 @@ def home():
     return{"message": "root route"}
 
 @app.post('/register')
-def register_user(email: str, password: str):
+def register_user(request: User):
     response = supabase.auth.sign_up({
-        "email": email, 
-        "password": password, 
+        "email": request.email, 
+        "password": request.password, 
     })
     return response
 
 @app.post("/login")
-def login_user(email: str, password:str):
+def login_user(request: User):
     response = supabase.auth.sign_in_with_password({
-            "email": email,
-            "password": password,
+            "email": request.email,
+            "password": request.password,
         })
         
     return response
