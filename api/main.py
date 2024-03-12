@@ -1,13 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from supabase_db import create_supabase_client
 from fastapi.middleware.cors import CORSMiddleware
 
-import bcrypt
-from typing import Union
-
+from models.tasks import Task
 from models.users import User
-
-
 
 app = FastAPI()
 
@@ -26,73 +22,49 @@ app.add_middleware(  #handle cors for security
 
 supabase = create_supabase_client()
 
-
 @app.get("/")
 def home():
     return{"message": "root route"}
 
-@app.post('/register', response_model=User)
-def register_user(email: str, password: str, name: str):
+@app.post('/register')
+def register_user(email: str, password: str):
     response = supabase.auth.sign_up({
         "email": email, 
         "password": password, 
-        "options":{
-            "data": {
-                "display_name": name
-            }
-        } 
     })
-    return User(email=email, password=password, name=name)
+    return response
 
-def user_exists(key: str = "email", value: str = None):
-    user = supabase.from_("users").select("*").eq(key, value).execute()
-    return len(user.data) > 0
+@app.post("/login")
+def login_user(email: str, password:str):
+    response = supabase.auth.sign_in_with_password({
+            "email": email,
+            "password": password,
+        })
+        
+    return response
+    
+    #     response_object = response()
+            # status_code = response_object.status_code
+        
+        
+    #     if status_code == 200:
+    #         return response
+        
+    #     # Check if the error is due to invalid credentials
+    #     if status_code == 401:
+    #         raise HTTPException(status_code=401, detail="Invalid credentials")
+    #     else:
+    #         raise HTTPException(status_code=status_code, detail="Unexpected Error")
+            
+    # except Exception as e:
+    #     # If an exception occurs, return HTTP 500 with the exception message
+    #     raise HTTPException(status_code=500, detail=str(e))
+    
 
-# Create a new user
-@app.post("/user")
-def create_user(user: User):
-    try:
-        # Convert email to lowercase
-        user_email = user.email.lower()
-        # Hash password
-        hashed_password = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt()).decode()
-
-        # Check if user already exists
-        if user_exists(value=user_email):
-            return {"message": "User already exists"}
-
-        # Add user to users table
-        user = supabase.from_("users")\
-            .insert({"email": user_email, "password": hashed_password, "name": user.name})\
-            .execute()
-
-        # Check if user was added
-        if user:
-            return {"message": "User created successfully"}
-        else:
-            return {"message": "User creation failed"}
-    except Exception as e:
-        print("Error: ", e)
-        return {"message": "User creation failed"}
-
-# Retrieve a user
-@app.get("/user")
-def get_user(user_id: Union[str, None] = None):
-    try:
-        if user_id:
-            user = supabase.from_("users")\
-                .select("id", "email", "name")\
-                .eq("id", user_id)\
-                .execute()
-
-            if user:
-                return user
-        else:
-            users = supabase.from_("users")\
-                .select("id", "email", "name")\
-                .execute()
-            if users:
-                return users
-    except Exception as e:
-        print(f"Error: {e}")
-        return {"message": "User not found"}
+@app.post("/logout")
+def logout_user():
+    response = supabase.auth.sign_out()
+    #may need to check current user first
+    return response
+    
+    

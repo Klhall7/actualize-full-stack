@@ -1,9 +1,9 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 class User(BaseModel):
+    id: int
     email: str
     password: str
-    name: str
     
 class UserBaseSchema(BaseModel):
     email: str
@@ -14,4 +14,3 @@ class UserSchema(UserBaseSchema):
 #calls id & email
     class Config: 
         populate_by_name = True
-        

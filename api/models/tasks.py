@@ -1,19 +1,23 @@
-from typing import List, Optional
-from pydantic import BaseModel, Field
+from typing import Optional, List
+from pydantic import BaseModel
 from datetime import datetime
-from main import supabase #import initialized client
+from supabase_db import create_supabase_client #import initialized client
+
+supabase = create_supabase_client()
 
 class Task(BaseModel):
     id: int
-    user_id: int 
-    status: str = Field(default="Not Started") #not started, in progress, completed
     title: str
-    created_at: datetime = Field(default_factory=datetime.now)
     due_date: Optional[datetime] = None
     description: Optional[str] = None
+    user_id: int  
+    # need to create status class model and status table in supabase update status column under tasks in supabase to relate to status table in supabase
+    status: int
     
 async def get_tasks_by_user(user_id: int) -> List[Task]: 
-    todo = await supabase.table("tasks").select("*").eq("user_id", user_id).execute()
-    tasks = [Task(**task) for task in todo.get("data", [])]
-    return tasks
-#iterate through list of tasks in supabase table, returning a list of Pydantic models directly. should remove need to turn into dictionaries as FastAPI should auto serialize into json format
+    tasks = await supabase.table("tasks").select("*").eq("user_id", user_id).execute()
+    #query supabase to fetch tasks by given user id and return result as todo
+    todo = [Task(**task) for task in tasks.get("data", [])]
+    #iterate over tasks resp, return list of task objects in. No response should be empty
+    return todo
+    #FastAPI should be auto serialize into json format
