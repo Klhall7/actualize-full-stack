@@ -1,4 +1,5 @@
 import { Form, Link, redirect } from "react-router-dom";
+import { useState } from "react";
 
 export async function action({ request }) {
     const credentials = await request.formData();
@@ -36,6 +37,11 @@ export async function action({ request }) {
 }
 
 const Register = () => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePassVisibility = () => {
+        setShowPassword(!showPassword);
+    };
     return (
         <>
             <Form
@@ -55,11 +61,15 @@ const Register = () => {
                 <label>
                     Password:
                     <input
-                        type="password"
+                        type={showPassword ? "text" : "password"} //set type based on checkbox
                         name="password"
-                        placeholder="create a password - must be at least 6 characters"
+                        placeholder="must be at least 6 characters"
                         required
                     />
+                </label>
+                <label>
+                    <input type="checkbox" onChange={togglePassVisibility} />
+                    Show Password?
                 </label>
                 <button type="submit">Register</button>
                 <p>

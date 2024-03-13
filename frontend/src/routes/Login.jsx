@@ -1,4 +1,5 @@
 import { Form, Link, redirect } from "react-router-dom";
+import { useState } from "react";
 
 export async function action({ request }) {
     const credentials = await request.formData();
@@ -38,6 +39,11 @@ export async function action({ request }) {
 }
 
 const Login = () => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePassVisibility = () => {
+        setShowPassword(!showPassword);
+    };
     return (
         <>
             <Form
@@ -57,17 +63,16 @@ const Login = () => {
                 <label>
                     Password:
                     <input
-                        id="field"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         name="password"
                         placeholder="enter your password"
                         required
                     />
                 </label>
-                {/* <button id="showpass" type="button">
-                    show password
-                </button>
-                need to style show pass button to an eye within input */}
+                <label>
+                    <input type="checkbox" onChange={togglePassVisibility} />
+                    Show Password?
+                </label>
                 <button type="submit">login</button>
                 <p>
                     Don&apos;t have an account?{" "}
