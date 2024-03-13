@@ -40,7 +40,7 @@ def handle_exception(e):
             error_detail = "Invalid Credentials" 
         else:
             error_code = status.HTTP_401_UNAUTHORIZED  
-            error_detail = "Authentication failed"  
+            error_detail = "Authentication Failed"  
     else: #any not AuthApiError
         error_code = status.HTTP_500_INTERNAL_SERVER_ERROR  
         error_detail = "Error Processing Auth Request" 

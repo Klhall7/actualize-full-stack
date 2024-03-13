@@ -1,45 +1,49 @@
-import { Form, Link } from "react-router-dom";
+import { Form, Link, redirect } from "react-router-dom";
 
 export async function action({ request }) {
     const credentials = await request.formData();
     const email = credentials.get("email");
     const password = credentials.get("password");
     const requestData = { email, password };
-    console.log("form credentials:", requestData) //form data entry check
+    console.log("check form credentials:", requestData);
 
     try {
-    const url = `${import.meta.env.VITE_SOURCE_URL}/login`;
-    const response = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-    });
+        const url = `${import.meta.env.VITE_SOURCE_URL}/login`;
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+        });
 
-    const authResponse = response.json()
-    console.log("authorization response:", authResponse); //type check fot testing
-    return authResponse
+        console.log(response) //check true 
+
+        if (response.ok) {
+            const authResponse = await response.json();
+            console.log("login auth response:", authResponse); //view jwt and session
+            return redirect("/")
+
+        } else {
+            const errorText = await response.text();
+            const errorDetail = JSON.parse(errorText);
+            console.log(errorDetail.detail); 
+            return errorDetail.detail
+        }
 
     } catch (error) {
         console.error("ERROR: ", error);
-        return false;
+        return "Sorry, something went wrong." 
     }
 }
 
 const Login = () => {
-    // const showpass = document.getElementById("showpass");
-    // showpass.addEventListener("click", () => {
-    //     console.log("clicked");
-    //     const field = document.getElementById("field");
-    //     field.type = "text";
-    //     field.value = "";
-    // });
-    // const requestResponse = useActionData();
-    // console.log("useActionData", requestResponse) //devtools console check
     return (
         <>
-            <Form method="POST" style={{display:"flex", flexDirection:"column"}}>
+            <Form
+                method="POST"
+                style={{ display: "flex", flexDirection: "column" }}
+            >
                 Login
                 <label>
                     email:
@@ -65,10 +69,11 @@ const Login = () => {
                 </button>
                 need to style show pass button to an eye within input */}
                 <button type="submit">login</button>
+                <p>
+                    Don&apos;t have an account?{" "}
+                    <Link to="/register">Register</Link>
+                </p>
             </Form>
-            <p>
-                Don&apos;t have an account? <Link to="/register">Register</Link>
-            </p>
         </>
     );
 };

@@ -1,37 +1,47 @@
-import { Form, Link } from "react-router-dom";
+import { Form, Link, redirect } from "react-router-dom";
 
 export async function action({ request }) {
     const credentials = await request.formData();
     const email = credentials.get("email");
     const password = credentials.get("password");
     const requestData = { email, password };
-    console.log("added credentials:", requestData) //form data entry check
+    console.log("added credentials:", requestData); //form data entry check
 
     try {
-    const url = `${import.meta.env.VITE_SOURCE_URL}/register`;
-    const response = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-    });
+        const url = `${import.meta.env.VITE_SOURCE_URL}/register`;
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+        });
 
-    const authResponse = response.json()
-    console.log("authorization response:", authResponse); //type check for testing
-    return authResponse
+        console.log(response); //check proper request sent
 
+        if (response.ok) {
+            const authResponse = await response.json();
+            console.log("register auth response:", authResponse); //view jwt and session
+            return redirect("/login");
+        } else {
+            const errorText = await response.text();
+            const errorDetail = JSON.parse(errorText);
+            console.log(errorDetail.detail);
+            return errorDetail.detail;
+        }
     } catch (error) {
         console.error("ERROR: ", error);
-        return false;
+        return "Sorry, something went wrong.";
     }
 }
 
 const Register = () => {
-
     return (
         <>
-            <Form method="POST" style={{display:"flex", flexDirection:"column"}}>
+            <Form
+                method="POST"
+                style={{ display: "flex", flexDirection: "column" }}
+            >
                 Create An Account
                 <label>
                     email:
@@ -52,10 +62,10 @@ const Register = () => {
                     />
                 </label>
                 <button type="submit">Register</button>
+                <p>
+                    Already Registered? <Link to="/login">Login</Link>
+                </p>
             </Form>
-            <p>
-                Already Registered? <Link to="/login">Login</Link>
-            </p>
         </>
     );
 };
