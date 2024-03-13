@@ -7,10 +7,12 @@ from models.users import User
 
 app = FastAPI()
 
-origins = [
-    "http://localhost/*",
-    "http://127.0.0.1:8000/*"
+origins = [  
     "http://localhost:8000",
+    "http://localhost:5173",
+    "http://127.0.0.1:8000",
+    "http://localhost:*/",
+    "http://localhost/*",
 ]
 
 app.add_middleware(  #handle cors for security
@@ -29,7 +31,7 @@ def home():
 
 # need to add get logic for getting current user to do login 
 
-@app.post('/register')
+@app.post("/register")
 def register_user(request: User):
     response = supabase.auth.sign_up({
         "email": request.email, 
@@ -45,7 +47,13 @@ def login_user(request: User):
         }) #redirects and status response checks on frontend
     return response
     
-    #     response_object = response()
+@app.post("/logout")
+def logout_user():
+    response = supabase.auth.sign_out()
+    #need to check current user first 
+    return response
+    
+#     response_object = response()
             # status_code = response_object.status_code
         
         
@@ -61,12 +69,3 @@ def login_user(request: User):
     # except Exception as e:
     #     # If an exception occurs, return HTTP 500 with the exception message
     #     raise HTTPException(status_code=500, detail=str(e))
-    
-
-@app.post("/logout")
-def logout_user():
-    response = supabase.auth.sign_out()
-    #need to check current user first 
-    return response
-    
-    
