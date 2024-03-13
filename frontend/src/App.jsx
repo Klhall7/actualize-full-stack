@@ -4,6 +4,7 @@ import Layout from "./pages/Layout";
 import HomePage from "./pages/HomePage";
 
 import Login, { action as loginAuth } from "./routes/Login";
+import Register, { action as registerAuth } from "./routes/Register";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,11 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login/>,
         action: loginAuth,
+      },
+      {
+        path: "/register",
+        element: <Register/>,
+        action: registerAuth,
       },
     ]
   }

@@ -5,20 +5,26 @@ export async function action({ request }) {
     const email = credentials.get("email");
     const password = credentials.get("password");
     const requestData = { email, password };
-    console.log("form credentials:", requestData) //form data check for devtools
+    console.log("form credentials:", requestData) //form data entry check
 
-    const url = `${import.meta.env.VITE_SUPABASE_URL}/login`;
-    const authResponse = await fetch(url, {
+    try {
+    const url = `${import.meta.env.VITE_SOURCE_URL}/login`;
+    const response = await fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(requestData),
-    }).then((response) => response.json());
+    });
 
-    console.log("authorization response:", authResponse); //type check for devtools
-
+    const authResponse = response.json()
+    console.log("authorization response:", authResponse); //type check fot testing
     return authResponse
+
+    } catch (error) {
+        console.error("ERROR: ", error);
+        return false;
+    }
 }
 
 const Login = () => {
@@ -29,7 +35,8 @@ const Login = () => {
     //     field.type = "text";
     //     field.value = "";
     // });
-
+    // const requestResponse = useActionData();
+    // console.log("useActionData", requestResponse) //devtools console check
     return (
         <>
             <Form method="POST" style={{display:"flex", flexDirection:"column"}}>
