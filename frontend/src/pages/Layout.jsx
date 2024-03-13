@@ -5,6 +5,7 @@ const Layout = () => {
         <>
             <Outlet id='outlet' />
              {/* need to add global styling */}
+             {/* need to create footer that will load on every route */}
         </>
     );
 }
