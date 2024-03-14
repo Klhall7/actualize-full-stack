@@ -15,6 +15,7 @@ postgrest==0.16.1
 psycopg2==2.9.9
 pydantic==2.6.3
 pydantic_core==2.16.3
+PyJWT==2.8.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 realtime==1.0.2
