@@ -33,6 +33,10 @@ const HomeNav = () => {
                             <Link to="/register">
                                 <li>Create Account</li>
                             </Link>
+                            <Link to="/dashboard">
+                                <li>Go to My Dashboard(must be logged in)</li>
+                            </Link>
+
                         </ul>
                     )}
                 </li>

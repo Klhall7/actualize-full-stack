@@ -8,7 +8,7 @@ const DashboardPage = () => {
                 <DashNav />
             </header>
             <div>
-                <Link to="/" id="logo-clickable">
+                <Link to="/dashboard" id="logo-clickable">
                     <img src="" alt="clickable Logo to my dashboard" />
                     <p>My Dashboard</p>
                 </Link>
