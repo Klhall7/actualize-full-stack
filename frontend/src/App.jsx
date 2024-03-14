@@ -8,6 +8,9 @@ import Register, { action as registerAuth } from "./routes/Register";
 import DashboardPage from "./routes/DashboardPage";
 import AccountProfile from "./routes/AccountProfile";
 
+// import useAccessToken from "./components/useAccessToken";
+// import { AuthProvider } from "./components/Auth";
+
 const router = createBrowserRouter([
     {
         element: <Layout />,
@@ -15,24 +18,24 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <HomePage />,
+                element: <HomePage/>,
             },
             {
                 path: "/profile",
-                element: <AccountProfile />,
+                element: <AccountProfile/>,
             },
             {
                 path: "/dashboard",
-                element: <DashboardPage />,
+                element: <DashboardPage/>,
             },
             {
                 path: "/login",
-                element: <Login />,
+                element: <Login/>,
                 action: loginAuth,
             },
             {
                 path: "/register",
-                element: <Register />,
+                element: <Register/>,
                 action: registerAuth,
             },
         ],
@@ -40,7 +43,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-    return <RouterProvider router={router} />;
+    return (
+        //wrap with AuthProvider to allow protected routes
+        // <AuthProvider>
+        <RouterProvider router={router} />
+        // </AuthProvider>
+    );
 }
 
 export default App;

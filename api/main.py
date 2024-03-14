@@ -1,4 +1,6 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Depends
+from fastapi.security import OAuth2PasswordBearer
+import jwt
 from gotrue.errors import AuthApiError
 from supabase_db import create_supabase_client
 from fastapi.middleware.cors import CORSMiddleware
@@ -26,9 +28,30 @@ app.add_middleware(  #handle cors for security
 
 supabase = create_supabase_client()
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login") 
+
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, supabase.client.headers.get("Authorization"), algorithms=["HS256"])
+        username = payload.get("sub")
+        user = await supabase.auth.user(username)  # Retrieve user information directly
+        if not user:
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+        return user
+    except jwt.exceptions.DecodeError as e:
+        raise HTTPException(status_code=401, detail="Invalid token format") 
+    except Exception as e:  # Catch other potential errors
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
 @app.get("/")
 def home():
     return{"message": "root route"}
+
+@app.get("/get-user-data")
+async def retrieve_user_data(current_user: dict = Depends(get_current_user)):
+    user_data = current_user  # Access user information directly from the validated payload
+    return {"user_data": user_data}
 
 def handle_exception(e):
     if isinstance(e, AuthApiError): #custom based on AuthApiError
