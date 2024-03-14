@@ -12,3 +12,7 @@ const Layout = () => {
 
 export default Layout;
 
+// import useAccessToken from "../components/useAccessToken";
+// import { Navigate } from "react-router-dom";
+
+// return isProtected ? <Outlet /> : <Navigate to="/login" />;

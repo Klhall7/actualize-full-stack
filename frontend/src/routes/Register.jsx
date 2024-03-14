@@ -23,6 +23,8 @@ export async function action({ request }) {
         if (response.ok) {
             const authResponse = await response.json();
             console.log("register auth response:", authResponse); //view jwt and session
+            const accessToken = authResponse.session.access_token;
+            localStorage.setItem('accessToken', accessToken)
             return redirect("/login");
         } else {
             const errorText = await response.text();
