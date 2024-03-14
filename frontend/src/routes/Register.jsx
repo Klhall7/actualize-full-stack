@@ -24,7 +24,7 @@ export async function action({ request }) {
             const authResponse = await response.json();
             console.log("register auth response:", authResponse); //view jwt and session
             const accessToken = authResponse.session.access_token;
-            localStorage.setItem('accessToken', accessToken)
+            localStorage.setItem("accessToken", accessToken);
             return redirect("/login");
         } else {
             const errorText = await response.text();
@@ -46,6 +46,13 @@ const Register = () => {
     };
     return (
         <>
+            <div>
+                <Link to="/" id="logo-clickable">
+                    <img src="" alt="clickable Logo to homepage" />
+                    <p>Back to Home</p>
+                </Link>
+                {/* Replace with logo img path once saved */}
+            </div>
             <Form
                 method="POST"
                 style={{ display: "flex", flexDirection: "column" }}
