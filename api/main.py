@@ -75,7 +75,7 @@ def login_user(request: User):
         
     return response
     
-@app.post("/logout") 
+@app.get("/logout") 
 def logout_user():
     response = supabase.auth.sign_out()
     return response

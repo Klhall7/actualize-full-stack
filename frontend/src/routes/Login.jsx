@@ -20,7 +20,7 @@ export async function action({ request }) {
 
         console.log(response); //check true
 
-        if (response.ok) {
+        if (response) {
             const authResponse = await response.json();
             console.log("login auth response:", authResponse); //view jwt and session
             const accessToken = authResponse.session.access_token;
@@ -44,6 +44,7 @@ const Login = () => {
     const togglePassVisibility = () => {
         setShowPassword(!showPassword);
     };
+
     return (
         <>
             <div>
@@ -86,6 +87,15 @@ const Login = () => {
                     <Link to="/register">Register</Link>
                 </p>
             </Form>
+            {/* manual redirect workaround */}
+            {localStorage.getItem("accessToken") && ( // Check for access token
+                <p>
+                    Login successful, if you are not automatically redirected{" "}
+                    <Link to="/dashboard">
+                        <span>click here</span>
+                    </Link>
+                </p>
+            )}
         </>
     );
 };

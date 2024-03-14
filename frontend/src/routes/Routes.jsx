@@ -46,6 +46,7 @@ const Routes = () => {
 
     const protectedRoutes = [
         {
+            errorElement: <ErrorPage />,
             element: <ProtectedRouteLayout />,
             children: [
                 {
