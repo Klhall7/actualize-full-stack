@@ -1,5 +1,6 @@
 import { Form, Link, redirect } from "react-router-dom";
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 export async function action({ request }) {
     const credentials = await request.formData();
@@ -18,23 +19,27 @@ export async function action({ request }) {
             body: JSON.stringify(requestData),
         });
 
-        console.log(response) //check true 
+        console.log(response); //check true
 
         if (response.ok) {
             const authResponse = await response.json();
             console.log("login auth response:", authResponse); //view jwt and session
-            return redirect("/")
-
+            const accessToken = authResponse.session.access_token;
+            Cookies.set("accessToken", accessToken, {
+                expires: 1, // expiry time in days
+                secure: true, // Set secure flag for HTTPS-only transmission
+                sameSite: "strict", // Restrict access to same-site requests
+            });
+            return redirect("/dashboard");
         } else {
             const errorText = await response.text();
             const errorDetail = JSON.parse(errorText);
-            console.log(errorDetail.detail); 
-            return errorDetail.detail
+            console.log(errorDetail.detail);
+            return errorDetail.detail;
         }
-
     } catch (error) {
         console.error("ERROR: ", error);
-        return "Sorry, something went wrong." 
+        return "Sorry, something went wrong.";
     }
 }
 
