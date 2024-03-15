@@ -1,10 +1,10 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Depends
 from gotrue.errors import AuthApiError
 from supabase_db import create_supabase_client
 from fastapi.middleware.cors import CORSMiddleware
 
-from models.tasks import Task
-from models.users import User
+from models.tasks import Task, get_tasks_by_user, get_task_by_id, get_status_by_id
+from models.users import User, Profile, get_profile_by_id
 
 app = FastAPI()
 
@@ -79,4 +79,39 @@ def login_user(request: User):
 def logout_user():
     response = supabase.auth.sign_out()
     return response
-    #should already have jwt token to end current session
+    #reads jwt from server storage
+
+@app.get("/profile")
+async def get_profile(profile_id: int = Depends(get_profile_by_id)):
+    """Retrieves profile for current user using imported function.- json type"""
+    return profile_id  # successful response should be json
+
+@app.get("/tasks/user/{user_id}")
+async def get_user_tasks(user_id: int = Depends(get_tasks_by_user)):
+    """Retrieves all tasks created by a specific user_id.- json type object"""
+    return user_id #set to "loginId" from server storage 
+
+@app.get("/tasks/{task_id}")
+async def get_task_by_id(task_id: int = Depends(get_task_by_id)):
+    """Retrieves a task by its ID.- json type object"""
+    return task_id  
+
+@app.get("/statuses/{status_id}")
+async def get_status_by_id(status_id: int = Depends(get_status_by_id)):
+    """Retrieves a status by its ID number, which will be converted to a text value on the frontend (not started, in progress, complete, etc).- json type object"""
+    return status_id 
+
+
+@app.post("/addtask")
+async def add_task(insert: Task):
+    """adds a new task into the tasks db"""
+    print(insert)
+    new_task = supabase.table('tasks').insert({
+        "title": insert.title,
+        "due_date": insert.due_date.isoformat() if insert.due_date else None,  
+        # make compatible with Supabase's timestamptz type.
+        "description": insert.description,
+        "user_id": insert.user_id, #set to "loginId" from server storage 
+        "status": insert.status_id #default 1 at creation
+    }).execute()
+    return new_task
