@@ -24,6 +24,7 @@ export async function action({ request }) {
             const authResponse = await response.json();
             console.log("register auth response:", authResponse); //view jwt and session
             const accessToken = authResponse.session.access_token;
+            localStorage.clear(); //precaution
             localStorage.setItem("accessToken", accessToken);
             return redirect("/login");
         } else {

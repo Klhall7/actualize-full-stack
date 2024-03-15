@@ -24,7 +24,10 @@ export async function action({ request }) {
             const authResponse = await response.json();
             console.log("login auth response:", authResponse); //view jwt and session
             const accessToken = authResponse.session.access_token;
+            const loginId = authResponse.user.id;
+            localStorage.clear(); //precaution
             localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("loginId", loginId);
             return redirect("/dashboard");
         } else {
             const errorText = await response.text();
@@ -95,6 +98,7 @@ const Login = () => {
                         <span>click here</span>
                     </Link>
                 </p>
+                
             )}
         </>
     );
