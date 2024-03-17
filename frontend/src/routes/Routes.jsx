@@ -11,6 +11,7 @@ import Logout, { loader as logoutLoader } from "./Logout";
 import Register, { action as registerSignUp } from "./Register";
 import DashboardPage from "./DashboardPage";
 import AccountProfile from "./AccountProfile";
+import { loader as taskLoader }from "../components/DisplayTask";
 
 const Routes = () => {
     const { isAuth } = useAuth();
@@ -56,6 +57,7 @@ const Routes = () => {
                 {
                     path: "/dashboard",
                     element: <DashboardPage />,
+                    loader: taskLoader,
                 },
             ],
         },

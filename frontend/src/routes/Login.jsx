@@ -1,5 +1,6 @@
-import { Form, Link, redirect } from "react-router-dom";
-import { useState } from "react";
+import { Form, Link, useActionData, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useAuth } from "../AuthContext";
 
 export async function action({ request }) {
     const credentials = await request.formData();
@@ -24,11 +25,14 @@ export async function action({ request }) {
             const authResponse = await response.json();
             console.log("login auth response:", authResponse); //view jwt and session
             const accessToken = authResponse.session.access_token;
-            const loginId = authResponse.user.id;
+            const userId = authResponse.user.id;
+            const sessionExpire = authResponse.session.expires_at;
             localStorage.clear(); //precaution
             localStorage.setItem("accessToken", accessToken);
-            localStorage.setItem("loginId", loginId);
-            return redirect("/dashboard");
+            localStorage.setItem("loginId", userId);
+            localStorage.setItem("sessionExpiration", sessionExpire);
+            // return redirect("/dashboard");
+            return "success";
         } else {
             const errorText = await response.text();
             const errorDetail = JSON.parse(errorText);
@@ -43,6 +47,25 @@ export async function action({ request }) {
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const response = useActionData();
+    const navigate = useNavigate();
+    const { isAuth, setIsAuth } = useAuth();
+
+    useEffect(() => {
+        if (isAuth) {
+            navigate("/dashboard");
+        }
+    }, [isAuth, navigate]);
+
+    useEffect(() => {
+        const checkAuth = () => {
+            if (typeof response !== "undefined") {
+                setIsAuth(response);
+                return response && navigate("/dashboard");
+            }
+        };
+        checkAuth();
+    }, [response, setIsAuth, navigate]);
 
     const togglePassVisibility = () => {
         setShowPassword(!showPassword);
@@ -98,7 +121,6 @@ const Login = () => {
                         <span>click here</span>
                     </Link>
                 </p>
-                
             )}
         </>
     );

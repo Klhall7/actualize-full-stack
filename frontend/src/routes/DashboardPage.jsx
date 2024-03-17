@@ -1,5 +1,6 @@
 import DashNav from "../components/dashNav";
 import { Link } from "react-router-dom";
+import DisplayTasks from "../components/DisplayTask";
 
 const DashboardPage = () => {
     return (
@@ -16,6 +17,7 @@ const DashboardPage = () => {
             </div>
             <h1>Dashboard</h1>
             <p>user default homepage at login</p>
+            <DisplayTasks />
             {/* need to set up menu for tasks */}
             {/* need to set up task component to fetch from Tasks db table */}
         </>
