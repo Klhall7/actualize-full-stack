@@ -1,10 +1,10 @@
-from fastapi import FastAPI, HTTPException, status, Depends
+from fastapi import FastAPI, HTTPException, status
 from gotrue.errors import AuthApiError
 from supabase_db import create_supabase_client
 from fastapi.middleware.cors import CORSMiddleware
 
-from models.tasks import Task, get_tasks_by_user, get_task_by_id, get_status_by_id
-from models.users import User, Profile, get_profile_by_id
+from models.tasks import Task
+from models.users import User, Profile
 
 app = FastAPI()
 
@@ -80,38 +80,75 @@ def logout_user():
     response = supabase.auth.sign_out()
     return response
     #reads jwt from server storage
+    
+@app.get(f"/profile/{id}") #need to see frontend response to utilize 
+async def get_profile_by_id(id: str):
+    """Retrieves profile for current user - json object"""
+    profile_data = supabase.table("profile").select("*").eq("id", id).execute()
+    return profile_data.model_dump() #model dump for dictionary test
 
-@app.get("/profile")
-async def get_profile(profile_id: int = Depends(get_profile_by_id)):
-    """Retrieves profile for current user using imported function.- json type"""
-    return profile_id  # successful response should be json
-
-@app.get("/tasks/user/{user_id}")
-async def get_user_tasks(user_id: int = Depends(get_tasks_by_user)):
-    """Retrieves all tasks created by a specific user_id.- json type object"""
-    return user_id #set to "loginId" from server storage 
-
-@app.get("/tasks/{task_id}")
-async def get_task_by_id(task_id: int = Depends(get_task_by_id)):
-    """Retrieves a task by its ID.- json type object"""
-    return task_id  
-
-@app.get("/statuses/{status_id}")
-async def get_status_by_id(status_id: int = Depends(get_status_by_id)):
-    """Retrieves a status by its ID number, which will be converted to a text value on the frontend (not started, in progress, complete, etc).- json type object"""
-    return status_id 
-
-
-@app.post("/addtask")
+@app.post("/add-task")
 async def add_task(insert: Task):
     """adds a new task into the tasks db"""
     print(insert)
-    new_task = supabase.table('tasks').insert({
-        "title": insert.title,
-        "due_date": insert.due_date.isoformat() if insert.due_date else None,  
-        # make compatible with Supabase's timestamptz type.
-        "description": insert.description,
-        "user_id": insert.user_id, #set to "loginId" from server storage 
-        "status": insert.status_id #default 1 at creation
-    }).execute()
-    return new_task
+    try:
+        new_task = supabase.table('tasks').insert({
+            "title": insert.title,
+            "due_date": insert.due_date.isoformat() if insert.due_date else None,
+            # make compatible with Supabase's timestamptz type.
+            "description": insert.description,
+            "user_id": insert.user_id, #set to "loginId" from server storage
+            "status_id": insert.status_id #default 1 at creation restrict vals on front
+        }).execute()
+        return new_task
+    except:
+        return {"error": "An error occurred while adding the task. Please check that you have a valid entry and try again. If the issue persists contact us with a screenshot so we can work on fixing it"}
+
+@app.get("/tasks/user/{user_id}")
+async def get_user_tasks(user_id: str):
+    """Retrieves all tasks created by a specific user_id.- json type object"""
+    user_tasks = supabase.table("tasks").select("*").eq("user_id", user_id).execute()
+    return user_tasks.model_dump()
+
+@app.get("/tasks/status/{user_id}")
+async def get_tasks_status_count(user_id: str):
+    """Retrieves json object of user's task then counts status occurrences. Number Key will be converted to text on the front end(not started, in progress, complete, etc)"""
+    try:
+        tasks_query = supabase.table("tasks").select("status_id").eq("user_id", user_id).execute()
+        tasks = tasks_query.data
+        status_counts = {}
+        for task in tasks:
+            status_id = task["status_id"]
+            status_counts[status_id] = status_counts.get(status_id, 0) + 1
+        return status_counts
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching tasks: {str(e)}")
+    
+@app.put("/update-task/{id}") #will open button and fetch upon save button
+async def update_task(id: int, update: Task): 
+    """Updates an existing task by it's task id and returns it"""
+    try:
+        task_updated = supabase.table('tasks').update({ 
+            "title": update.title,
+            "due_date": update.due_date.isoformat() if update.due_date else None,
+            "description": update.description,
+            "status_id": update.status_id #dropdown of controlled values
+        }).eq("id", id).execute()
+        return task_updated
+    except:
+        return {"error": "An error occurred while updating the task. Please try again, and contact us if the issue persists."}
+    
+@app.delete("/delete-task/{id}") #will delete with button, make sure to have user confirm
+async def delete_task(id: int): 
+    """deletes an existing task by it's task db id"""
+    try:
+        supabase.table('tasks').delete().eq("id", id).execute()
+        return {'message': "task deleted successfully"}
+    except:
+        return {"error": "An error occurred deleting the task. Please try again, and contact us if the issue persists."}
+    
+    
+
+
+
