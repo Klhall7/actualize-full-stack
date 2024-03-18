@@ -10,10 +10,10 @@ import Login, { action as loginPass } from "./Login";
 import Logout, { loader as logoutLoader } from "./Logout";
 import Register, { action as registerSignUp } from "./Register";
 import DashboardPage from "./DashboardPage";
-import AccountProfile from "./AccountProfile";
+import ViewUserProfile from "./ViewUserProfile";
 
 import ProgressAndUrgentTasks from "../child-components/ProgressAndUrgentTasks";
-import DisplayTasks, { loader as taskLoader } from "../child-components/DisplayTask";
+import ViewTasksByUser, { loader as taskLoader } from "../child-components/ViewTasksByUser";
 
 const Routes = () => {
     const { isAuth } = useAuth();
@@ -63,7 +63,7 @@ const Routes = () => {
                         },
                         {
                             path: "/dashboard/view-tasks-by-user",
-                            element: <DisplayTasks />,
+                            element: <ViewTasksByUser />,
                             loader: taskLoader,
                         },
                         // need to add other child component routes here as created
@@ -71,7 +71,7 @@ const Routes = () => {
                 },
                 {
                     path: "/profile",
-                    element: <AccountProfile />,
+                    element: <ViewUserProfile />,
                 },
             ],
         },

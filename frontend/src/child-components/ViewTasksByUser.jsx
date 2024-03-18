@@ -22,7 +22,7 @@ export async function loader() {
     }
 }
 
-const DisplayTasks = () => {
+const ViewTasksByUser = () => {
     const { data } = useLoaderData();
     console.log(data);
 
@@ -34,7 +34,7 @@ const DisplayTasks = () => {
                     return (
                         <li key={index}>
                             {task.title}
-                            <br />
+                            {task.due_date}
                             {task.description}
                         </li>
                     );
@@ -44,4 +44,4 @@ const DisplayTasks = () => {
     );
 };
 
-export default DisplayTasks;
+export default ViewTasksByUser;
