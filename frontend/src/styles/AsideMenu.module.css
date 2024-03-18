@@ -1,0 +1,20 @@
+.asideMenu {
+    height: 100%;
+    min-width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.asideMenu ul {
+    text-align: left;
+}
+
+.asideMenu li {
+    list-style: none;
+}
+
+/* Style for the active menu item */
+.asideMenu li.active {
+    background-color: #f0f0f0ca; 
+    font-weight: bold;
+}

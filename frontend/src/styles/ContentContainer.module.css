@@ -1,0 +1,9 @@
+.contentContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 1rem;
+}

@@ -1,6 +1,8 @@
+import { Outlet } from "react-router-dom";
+
 import DashNav from "../components/dashNav";
-import { Link } from "react-router-dom";
-import DisplayTasks from "../components/DisplayTask";
+import AsideMenu from "../components/AsideMenu";
+import ContentContainer from "../components/ContentContainer";
 
 const DashboardPage = () => {
     return (
@@ -8,18 +10,12 @@ const DashboardPage = () => {
             <header>
                 <DashNav />
             </header>
-            <div>
-                <Link to="/dashboard" id="logo-clickable">
-                    <img src="" alt="clickable Logo to my dashboard" />
-                    <p>My Dashboard</p>
-                </Link>
-                {/* Replace with logo img path once saved */}
+            <div className="dashboard-container" style={{ display: "flex" }}>
+                <AsideMenu/> 
+                <ContentContainer>
+                    <Outlet/>  {/* child component rendering */}
+                </ContentContainer>
             </div>
-            <h1>Dashboard</h1>
-            <p>user default homepage at login</p>
-            <DisplayTasks />
-            {/* need to set up menu for tasks */}
-            {/* need to set up task component to fetch from Tasks db table */}
         </>
     );
 };

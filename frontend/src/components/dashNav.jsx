@@ -12,8 +12,10 @@ const DashNav = () => {
         <nav className="">
             {/* replace "" with styles mod once created */}
             <div id="logo">
-                <img src="" alt="Actualize App Logo" />
-                {/* Replace with logo path once saved */}
+                <Link to="/dashboard" id="logo-clickable">
+                    <img src="" alt="clickable Actualize App Logo" />
+                    {/* Replace with logo path once saved */}
+                </Link>
             </div>
             <div id="profile-dropdown">
                 <button type="button" onClick={toggleDropdown}>

@@ -11,7 +11,9 @@ import Logout, { loader as logoutLoader } from "./Logout";
 import Register, { action as registerSignUp } from "./Register";
 import DashboardPage from "./DashboardPage";
 import AccountProfile from "./AccountProfile";
-import { loader as taskLoader }from "../components/DisplayTask";
+
+import ProgressAndUrgentTasks from "../child-components/ProgressAndUrgentTasks";
+import DisplayTasks, { loader as taskLoader } from "../child-components/DisplayTask";
 
 const Routes = () => {
     const { isAuth } = useAuth();
@@ -51,13 +53,25 @@ const Routes = () => {
             element: <ProtectedRouteLayout />,
             children: [
                 {
-                    path: "/profile",
-                    element: <AccountProfile />,
+                    path: "/dashboard", //parent route
+                    element: <DashboardPage />,
+                    children: [
+                        // Nested routes within dashboard to be rendered in outlet
+                        {
+                            path: "", 
+                            element: <ProgressAndUrgentTasks />,
+                        },
+                        {
+                            path: "/dashboard/view-tasks-by-user",
+                            element: <DisplayTasks />,
+                            loader: taskLoader,
+                        },
+                        // need to add other child component routes here as created
+                    ],
                 },
                 {
-                    path: "/dashboard",
-                    element: <DashboardPage />,
-                    loader: taskLoader,
+                    path: "/profile",
+                    element: <AccountProfile />,
                 },
             ],
         },
