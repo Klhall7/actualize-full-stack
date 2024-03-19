@@ -1,20 +1,31 @@
 .asideMenu {
     height: 100%;
-    min-width: fit-content;
+    min-width: max-content;
     display: flex;
     flex-direction: column;
-}
-
-.asideMenu ul {
-    text-align: left;
+    background-color: rgba(188, 170, 170, 0.726);
+    border-radius: 5px;
+    height: 100vh;
 }
 
 .asideMenu li {
     list-style: none;
 }
 
+.asideMenu button {
+    background: transparent;
+    border: none;
+    margin-right: 0.8rem;
+    margin-bottom: 1rem;
+    border-bottom: solid 1px black;
+    min-width: max-content;
+}
+
+.asideMenu button:hover {
+    color: slategray;
+}
+
 /* Style for the active menu item */
-.asideMenu li.active {
-    background-color: #f0f0f0ca; 
+.active {
     font-weight: bold;
 }

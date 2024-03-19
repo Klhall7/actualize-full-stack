@@ -25,7 +25,7 @@ const AsideMenu = () => {
                 {menuItems.map((menuItem) => (
                     <li key={menuItem.id}>
                         {/* Dynamic className for active list item- precaution for style rendering*/}
-                        <button
+                        <button type="button"
                             className={
                                 activeMenuItem === menuItem.id
                                     ? styles.active
