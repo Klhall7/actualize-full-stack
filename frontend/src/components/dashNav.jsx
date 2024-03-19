@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles/dashNav.module.css";
+import avatar from '../images/default-profile.jpg';
+import placeholder from '../images/placeholder-image.jpeg';
+
 
 const DashNav = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -11,26 +14,40 @@ const DashNav = () => {
 
     return (
         <nav className={styles.navContainer}>
-            <div id="logo">
+            <div>
                 <Link to="/" id="logo-clickable">
-                    <img src="" alt="clickable Actualize App Logo to go Home" />
-                    {/* Replace with logo image path once saved */}
+                    <img 
+                        className={styles.img}
+                        src={placeholder} 
+                        alt="clickable Actualize App Logo to go Home"
+                    /> {/* Replace with logo */}
+                    
                 </Link>
             </div>
-            <div id="dropdown">
-                <button type="button" onClick={toggleDropdown}>
-                    <img src="" alt="user avatar" />
-                    {/* Replace with avatar image path once saved */}
-                </button>
+            <div className={styles.dropdownContainer}>
+                <button
+                    type="button"
+                    onClick={toggleDropdown}
+                    className={styles.dropdownButton}
+                >
+                    {/* Replace w/ stored img */}
+                    <img
+                        className={styles.avatar}
+                        src={avatar}  
+                        alt="your avatar"
+                    /> 
+                </button>   
                 {dropdownOpen && (
-                    <ul id="dropdown-content">
+                    <ul className={styles.dropdownList}>
                         <li>
-                            <Link to="/profile" id="link">
-                                Profile Details
+                            <Link to="/profile" 
+                            className={styles.dropdownLink}>
+                                Profile
                             </Link>
                         </li>
                         <li>
-                            <Link to="/logout" id="link">
+                            <Link to="/logout" 
+                            className={styles.dropdownLink}>
                                 Logout
                             </Link>
                         </li>
@@ -44,4 +61,4 @@ const DashNav = () => {
 export default DashNav;
 
 //FUTURE IMPROVEMENTS:
-// list item for customize avatar. When clicked, loads modal feature to upload image that will store new avatar image for this user. Image source should be set to stored user image from supabase storage - which will need to utilize supabase storage by user. Add conditional render to set image source to placeholder if there is no image for the user.
+// allow user to add an avatar on the profile page. Image source should be set to stored user image from supabase storage bucket- which will need to utilize supabase storage by user. Add conditional render to set image source to placeholder if there is no image for the user.
