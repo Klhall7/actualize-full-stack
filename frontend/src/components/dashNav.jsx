@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import styles from "../styles/dashNav.module.css";
 
 const DashNav = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -9,24 +10,23 @@ const DashNav = () => {
     };
 
     return (
-        <nav className="">
-            {/* replace "" with styles mod once created */}
+        <nav className={styles.navContainer}>
             <div id="logo">
-                <Link to="/dashboard" id="logo-clickable">
-                    <img src="" alt="clickable Actualize App Logo" />
-                    {/* Replace with logo path once saved */}
+                <Link to="/" id="logo-clickable">
+                    <img src="" alt="clickable Actualize App Logo to go Home" />
+                    {/* Replace with logo image path once saved */}
                 </Link>
             </div>
-            <div id="profile-dropdown">
+            <div id="dropdown">
                 <button type="button" onClick={toggleDropdown}>
                     <img src="" alt="user avatar" />
-                    {/* Replace with avatar image placeholder once saved */}
+                    {/* Replace with avatar image path once saved */}
                 </button>
                 {dropdownOpen && (
                     <ul id="dropdown-content">
                         <li>
                             <Link to="/profile" id="link">
-                                Profile Settings
+                                Profile Details
                             </Link>
                         </li>
                         <li>
@@ -43,58 +43,5 @@ const DashNav = () => {
 
 export default DashNav;
 
-//styling note for module
-// #profile-dropdown {
-//     position: relative; /* Enable positioning for dropdown content */
-//     display: inline-block; /* Allow side-by-side elements */
-//   }
-
-//   #profile-dropdown button {
-//     /* Style the button as desired (background, padding, etc.) */
-//     border: none; /* Remove default button border */
-//     cursor: pointer; /* Indicate interactive element */
-//   }
-
-//   #profile-dropdown:hover button:after {
-//     /* Show dropdown indicator on hover */
-//     content: "";
-//     display: inline-block;
-//     width: 0px;
-//     height: 0px;
-//     border-left: 5px solid transparent;
-//     border-right: 5px solid transparent;
-//     border-top: 8px solid #ccc; /* Adjust color as needed */
-//     vertical-align: middle;
-//     margin-left: 5px; /* Adjust spacing as needed */
-//     transition: transform 0.3s ease-in-out;
-//   }
-
-//   #profile-dropdown.open button:after {
-//     /* Rotate arrow on open */
-//     transform: translateY(-100%); /* Adjust rotation based on dropdown content height */
-//   }
-
-//   #dropdown-content {
-//     display: none;
-//     position: absolute;
-//     background-color: #fff;
-//     min-width: 150px; /* Adjust minimum width as needed */
-//     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-//     z-index: 1; /* Ensure dropdown is above other elements */
-//     padding: 10px; /* Inner padding for options */
-//   }
-
-//   #profile-dropdown.open #dropdown-content {
-//     display: block; /* Show dropdown content on open */
-//   }
-
-//   #link {
-//     color: black; /* Style option text */
-//     text-decoration: none;
-//     display: block; /* Make options full width */
-//     padding: 5px 10px; /* Padding for each option */
-//   }
-
-//   #link {
-//     background-color: #f1f1f1; /* Highlight option on hover */
-//   }
+//FUTURE IMPROVEMENTS:
+// list item for customize avatar. When clicked, loads modal feature to upload image that will store new avatar image for this user. Image source should be set to stored user image from supabase storage - which will need to utilize supabase storage by user. Add conditional render to set image source to placeholder if there is no image for the user.
