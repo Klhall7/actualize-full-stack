@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const FooterMenu = () => {
     return (
         <>
-            <footer className="footer">
+            <footer className="footer" style={{display:"flex", justifyContent:"space-evenly"}}>
                 <p>© 2024 Actualize</p> {/* Replace with your company name */}
                 {/* Add social media icons with anchor elements (replace with your links) */}
                 <ul>

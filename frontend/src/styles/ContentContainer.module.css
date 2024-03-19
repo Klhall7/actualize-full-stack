@@ -6,4 +6,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     padding: 1rem;
+    border: solid 2px green;
+    width: 100%;
 }
+

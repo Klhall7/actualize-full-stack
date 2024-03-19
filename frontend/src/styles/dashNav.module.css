@@ -1,14 +1,16 @@
 .navContainer {
     display: flex;
     height: max-content;
+    padding: 5px;
     align-items: center;
     align-content: center;
     justify-content: space-between;
+    border: solid 1px grey;
 }
 
 .img {
-    width: auto;
-    height: 2rem;
+    height: auto;
+    width: 2rem;
     margin-left: 0.5rem;
 }
 
