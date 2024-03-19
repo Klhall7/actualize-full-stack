@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Request
 from gotrue.errors import AuthApiError
 from supabase_db import create_supabase_client
 from fastapi.middleware.cors import CORSMiddleware
@@ -80,21 +80,20 @@ def logout_user():
     return response
     #reads jwt from server storage
     
-@app.get("/profile/{id}") #need to see frontend response to utilize 
+@app.get("/profile/{id}") 
 async def get_profile_by_id(id: str):
     """Retrieves profile for current user - json object"""
     profile_data = supabase.table("profile").select("*").eq("id", id).execute()
-    return profile_data.model_dump() #model dump for dictionary test
+    return profile_data
 
 @app.put("/update-profile/{id}") #must pass access token for authorization
 async def update_profile(id: str, update: Profile): 
-    """accesses existing profile with uuid, sends specified changes and returns updated profile"""
+    """accesses existing profile with uuid, sends specified changes and returns updated profile.
+    supabase security setting blocks changes to auth.users table, until that is worked out only allow user to adjust columns that are not associated with auth table to mitigate email/pass mismatch"""
     try:
-        existing_profile = supabase.table('profile').select('email', 'password', 'username').eq('id', id).single()
+        existing_profile = supabase.table('profile').select('username').eq('id', id).single()
         
         update_data = { #check if field is updated before processing
-            "email": update.email if update.email else existing_profile['email'],
-            "password": update.password if update.password else existing_profile['password'],
             "username": update.username if update.username else existing_profile['username'],
         }
         profile_updated = supabase.table('profile').update(update_data).eq("id", id).execute()
@@ -141,7 +140,7 @@ async def get_tasks_status_count(user_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching tasks: {str(e)}")
     
-@app.put("/update-task/{id}") #will open button and fetch upon save button
+@app.put("/update-task/{id}") #fetch upon save button
 async def update_task(id: int, update: Task): 
     """Updates an existing task by it's task id and returns it"""
     try:
@@ -163,7 +162,20 @@ async def delete_task(id: int):
         return {'message': "task deleted successfully"}
     except Exception as e:
         return {"error": f"An error occurred deleting the task: {str(e)}. Please try again, and contact us if the issue persists."}
-    
+
+@app.post("/refresh")
+async def refresh_token(request: Request):
+    """processes request to refresh a session in case a user's token expired"""
+    data = await request.json()
+    token = data.get('refresh_token')
+
+    session = supabase.auth.refresh_session(token)
+    if session is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid session",
+        )
+    return session
     
 
 
