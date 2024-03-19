@@ -72,7 +72,6 @@ def login_user(request: User):
         }) #redirects on frontend
     except Exception as e:
         handle_exception(e)
-        
     return response
     
 @app.get("/logout") 
@@ -81,11 +80,28 @@ def logout_user():
     return response
     #reads jwt from server storage
     
-@app.get(f"/profile/{id}") #need to see frontend response to utilize 
+@app.get("/profile/{id}") #need to see frontend response to utilize 
 async def get_profile_by_id(id: str):
     """Retrieves profile for current user - json object"""
     profile_data = supabase.table("profile").select("*").eq("id", id).execute()
     return profile_data.model_dump() #model dump for dictionary test
+
+@app.put("/update-profile/{id}") #must pass access token for authorization
+async def update_profile(id: str, update: Profile): 
+    """accesses existing profile with uuid, sends specified changes and returns updated profile"""
+    try:
+        existing_profile = supabase.table('profile').select('email', 'password', 'username').eq('id', id).single()
+        
+        update_data = { #check if field is updated before processing
+            "email": update.email if update.email else existing_profile['email'],
+            "password": update.password if update.password else existing_profile['password'],
+            "username": update.username if update.username else existing_profile['username'],
+        }
+        profile_updated = supabase.table('profile').update(update_data).eq("id", id).execute()
+        return profile_updated
+
+    except Exception as e:
+        return {"error": f"An error occurred while updating your profile data: {str(e)}. Please try again, and contact us if the issue persists."}
 
 @app.post("/add-task")
 async def add_task(insert: Task):
@@ -101,8 +117,8 @@ async def add_task(insert: Task):
             "status_id": insert.status_id #default 1 at creation restrict vals on front
         }).execute()
         return new_task
-    except:
-        return {"error": "An error occurred while adding the task. Please check that you have a valid entry and try again. If the issue persists contact us with a screenshot so we can work on fixing it"}
+    except Exception as e:
+        return {"error": f"An error occurred while adding the task: {str(e)}. Please check that you have a valid entry and try again. If the issue persists contact us with a screenshot so we can work on fixing it"}
 
 @app.get("/tasks/user/{user_id}")
 async def get_user_tasks(user_id: str):
@@ -136,8 +152,8 @@ async def update_task(id: int, update: Task):
             "status_id": update.status_id #dropdown of controlled values
         }).eq("id", id).execute()
         return task_updated
-    except:
-        return {"error": "An error occurred while updating the task. Please try again, and contact us if the issue persists."}
+    except Exception as e:
+        return {"error": f"An error occurred while updating the task: {str(e)}. Please try again, and contact us if the issue persists."}
     
 @app.delete("/delete-task/{id}") #will delete with button, make sure to have user confirm
 async def delete_task(id: int): 
@@ -145,8 +161,8 @@ async def delete_task(id: int):
     try:
         supabase.table('tasks').delete().eq("id", id).execute()
         return {'message': "task deleted successfully"}
-    except:
-        return {"error": "An error occurred deleting the task. Please try again, and contact us if the issue persists."}
+    except Exception as e:
+        return {"error": f"An error occurred deleting the task: {str(e)}. Please try again, and contact us if the issue persists."}
     
     
 
