@@ -9,11 +9,48 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
             setIsAuth(true);
+        } else {
+            setIsAuth(false);
         }
     }, []);
 
+    // We'll be able to call this just in case our access token has expired
+    const refreshSession = async () => {
+        const expiration = Number(localStorage.getItem('expiration'));
+        const now = Math.floor(Date.now() / 1000);
+        if (now > expiration) {
+            const refresh_token = localStorage.getItem('refresh_token');
+            const url = `${import.meta.env.VITE_SOURCE_URL}/refresh`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ refresh_token }),
+            });
+
+            if (response.status === 200) {
+                const data = await response.json();
+                const { session, user } = data;
+                localStorage.clear();
+                localStorage.setItem('user_id', user.id);
+                localStorage.setItem('access_token', session.access_token);
+                localStorage.setItem('refresh_token', session.refresh_token);
+                localStorage.setItem('expiration', session.expires_at);
+            } else {
+                // The refresh token is invalid.
+                console.error('ERROR:', response);
+            }
+        } else {
+            // If the token hasn't expired, no need to do anything
+            console.info("Token still valid")
+            return;
+        }
+    };
+
+
     return (
-        <AuthContext.Provider value={{ isAuth, setIsAuth }}>
+        <AuthContext.Provider value={{ isAuth, setIsAuth, refreshSession }}>
             {children}
         </AuthContext.Provider>
     );

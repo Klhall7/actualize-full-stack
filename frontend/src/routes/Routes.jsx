@@ -10,7 +10,7 @@ import Login, { action as loginPass } from "./Login";
 import Logout, { loader as logoutLoader } from "./Logout";
 import Register, { action as registerSignUp } from "./Register";
 import DashboardPage from "./DashboardPage";
-import ViewUserProfile from "./ViewUserProfile";
+import ViewUserProfile, {loader as profileLoader }from "./ViewUserProfile";
 
 import ProgressAndUrgentTasks from "../child-components/ProgressAndUrgentTasks";
 import ViewTasksByUser, { loader as taskLoader } from "../child-components/ViewTasksByUser";
@@ -72,6 +72,7 @@ const Routes = () => {
                 {
                     path: "/profile",
                     element: <ViewUserProfile />,
+                    loader: profileLoader,
                 },
             ],
         },

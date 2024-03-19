@@ -26,12 +26,12 @@ export async function action({ request }) {
             console.log("login auth response:", authResponse); //view jwt and session
             const accessToken = authResponse.session.access_token;
             const userId = authResponse.user.id;
-            const sessionExpire = authResponse.session.expires_in;
+            const sessionExpire = authResponse.session.expires_at;
             const refreshToken = authResponse.session.refresh_token;
             localStorage.clear(); //precaution
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("loginId", userId);
-            localStorage.setItem("session_expires_in", sessionExpire);
+            localStorage.setItem("session_expires_at", sessionExpire);
             localStorage.setItem("session_refresh_token", refreshToken);
             return "success";
         } else {
