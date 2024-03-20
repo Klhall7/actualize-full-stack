@@ -6,6 +6,7 @@ const ContentContainer = () => {
     return (
         <>
             <section className={styles.contentContainer}>
+                {/* add logic for useContext error handling */}
                 <Outlet /> {/* Outlet for child component rendering */}
             </section>
         </>

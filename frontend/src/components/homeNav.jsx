@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import placeholder from '../images/placeholder-image.jpeg';
 
 const HomeNav = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false); 
@@ -13,7 +12,7 @@ const HomeNav = () => {
         <nav className="">
             {/* replace "" with styles mod once created */}
             <div id="logo">
-                <img src={placeholder} alt="Actualize App Logo" />
+                <img src="" alt="Actualize App Logo" />
                 {/* Replace with logo path once saved */}
             </div>
             <ul id="ul-dropdown">

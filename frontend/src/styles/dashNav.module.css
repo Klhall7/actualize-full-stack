@@ -37,21 +37,21 @@
 
 .dropdownList {
     font-size: 0.9rem;
-    list-style: none; 
+    list-style: none;
     padding: 0;
     margin-top: 0.5rem;
     position: absolute;
     max-height: max-content;
-    display:flex;
+    display: flex;
     flex-direction: column;
 }
 
 .dropdownLink {
-    text-decoration: none; 
+    text-decoration: none;
     margin: none;
-    color: inherit; 
+    color: inherit;
 }
 
 .dropdownLink:hover {
-    color: rgb(142, 163, 183); 
+    color: rgb(142, 163, 183);
 }

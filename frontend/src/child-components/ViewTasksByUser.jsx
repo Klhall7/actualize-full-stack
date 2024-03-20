@@ -1,4 +1,7 @@
 import { useLoaderData } from "react-router-dom";
+import { useState, useEffect } from "react";
+import EditAndReturnTask from "./EditAndReturnTask";
+import { useAuth } from "../AuthContext";
 
 export async function loader() {
     try {
@@ -13,8 +16,6 @@ export async function loader() {
         });
 
         const data = await response.json();
-        console.log("response object :", data);
-
         return data;
     } catch (error) {
         console.error("ERROR: ", error);
@@ -23,23 +24,50 @@ export async function loader() {
 }
 
 const ViewTasksByUser = () => {
+    const { refreshSession } = useAuth();
+
+    useEffect(() => {
+        refreshSession();
+    }, [refreshSession]);
+
     const { data } = useLoaderData();
-    console.log(data);
+    console.log("api loader response:", data);
+
+    const [showForm, setShowForm] = useState(false);
+    const [task, setTask] = useState(null);
+
+    const handleClick = (task) => {
+        console.log("Edit Clicked, PROP Passed:", task);
+        setTask(task);
+        setShowForm(true);
+    };
 
     return (
         <>
             <h2>All Tasks</h2>
+
             <ul>
                 {data.map((task, index) => {
                     return (
                         <li key={index}>
-                            {task.title}
-                            {task.due_date}
-                            {task.description}
+                            Task {task.id}{" "}
+                            <button
+                                type="button"
+                                onClick={() => handleClick(task)}
+                            >
+                                Edit
+                            </button>
+                            <br />
+                            Title: {task.title}
+                            <br />
+                            Due By: {task.due_date}
+                            <br />
+                            Description: {task.description}
                         </li>
                     );
                 })}
             </ul>
+            {showForm && task && <EditAndReturnTask task={task} />}
         </>
     );
 };

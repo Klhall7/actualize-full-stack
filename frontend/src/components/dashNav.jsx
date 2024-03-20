@@ -8,6 +8,7 @@ import placeholder from '../images/placeholder-image.jpeg';
 const DashNav = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
+
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };

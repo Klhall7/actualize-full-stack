@@ -109,8 +109,7 @@ async def add_task(insert: Task):
     try:
         new_task = supabase.table('tasks').insert({
             "title": insert.title,
-            "due_date": insert.due_date.isoformat() if insert.due_date else None,
-            # make compatible with Supabase's timestamptz type.
+            "due_date": insert.due_date if insert.due_date else None,
             "description": insert.description,
             "user_id": insert.user_id, #set to "loginId" from server storage
             "status_id": insert.status_id #default 1 at creation restrict vals on front
@@ -146,7 +145,7 @@ async def update_task(id: int, update: Task):
     try:
         task_updated = supabase.table('tasks').update({ 
             "title": update.title,
-            "due_date": update.due_date.isoformat() if update.due_date else None,
+            "due_date": update.due_date if update.due_date else None,
             "description": update.description,
             "status_id": update.status_id #dropdown of controlled values
         }).eq("id", id).execute()
