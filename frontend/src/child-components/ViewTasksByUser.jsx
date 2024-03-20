@@ -18,7 +18,7 @@ export async function loader() {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("ERROR: ", error);
+        console.error("ERROR: ", error.detail);
         return false;
     }
 }
@@ -31,7 +31,7 @@ const ViewTasksByUser = () => {
     }, [refreshSession]);
 
     const { data } = useLoaderData();
-    console.log("api loader response:", data);
+    console.log("all tasks loader response:", data);
 
     const [showForm, setShowForm] = useState(false);
     const [task, setTask] = useState(null);
@@ -40,6 +40,12 @@ const ViewTasksByUser = () => {
         console.log("Edit Clicked, PROP Passed:", task);
         setTask(task);
         setShowForm(true);
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute:"numeric" };
+        return date.toLocaleDateString('en-US', options); // Adjust for your locale
     };
 
     return (
@@ -60,7 +66,7 @@ const ViewTasksByUser = () => {
                             <br />
                             Title: {task.title}
                             <br />
-                            Due By: {task.due_date}
+                            Due By: {formatDate(task.due_date)}
                             <br />
                             Description: {task.description}
                         </li>
