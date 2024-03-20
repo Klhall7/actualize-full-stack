@@ -15,10 +15,16 @@ export async function loader() {
             },
         });
 
+        if (!response === 200) {
+            const status = response.statusCode
+            const errorMessage = `Loading FAILED: ${status}`
+            return errorMessage
+        }
+
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("ERROR: ", error.detail);
+        console.error("ERROR: ", error.message);
         return false;
     }
 }
@@ -30,7 +36,7 @@ const ViewTasksByUser = () => {
         refreshSession();
     }, [refreshSession]);
 
-    const { data } = useLoaderData();
+    const { data, error } = useLoaderData();
     console.log("all tasks loader response:", data);
 
     const [showForm, setShowForm] = useState(false);
@@ -51,7 +57,7 @@ const ViewTasksByUser = () => {
     return (
         <>
             <h2>All Tasks</h2>
-
+            {error && <p>{error}</p>} {/* Display error if present */}
             <ul>
                 {data.map((task, index) => {
                     return (
