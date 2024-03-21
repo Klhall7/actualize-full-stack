@@ -14,13 +14,13 @@ export async function loader() {
         },
     });
 
-    console.log("FETCH RESPONSE", response);
+    console.log("Server SignOut Response", response);
     return response.ok;
 }
 
 const Logout = () => {
     const response = useLoaderData();
-    console.log("ACTION RESPONSE:", response);
+    console.log("SignOut Loader Return:", response);
     const { setIsAuth } = useAuth();
     const [errorShown, setErrorShown] = useState(false);
 
@@ -33,10 +33,11 @@ const Logout = () => {
         return <Navigate to="/login" />;
     } else {
         if (!errorShown) {
+            const error = response.json();
             setErrorShown(true); //try to prevent double alert
-            alert("Error processing logout");
+            alert(`Error processing logout: ${error.error_detail}`);
+            return <Navigate to="/dashboard" />;
         }
-        return <Navigate to="/dashboard" />;
     }
 };
 
