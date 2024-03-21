@@ -42,12 +42,27 @@ export function AuthProvider({ children }) {
                 );
                 localStorage.setItem("session_expires_at", session.expires_at);
             } else {
-                // The refresh token is invalid.
-                console.error("ERROR:", response.message);
+                // Handle fetch errors
+                const error = await response.json();
+                console.error("SERVER RESPONSE ERROR:", error);
+                if (error.error_status === 409) {
+                    alert(
+                        "A session refresh conflict occurred.You need to login again."
+                    );
+                    return; //add redirect here
+                } else if (error.error_code === 401) {
+                    alert(`401 Unauthorized Detail: ${error.detail}`);
+                    return;
+                } else if (error.error_code === 500) {
+                    alert(`500 Internal Detail - ${error.detail}`);
+                    return;
+                } else {
+                    console.error("Server Error Detail:", error.detail);
+                }
             }
         } else {
             // If the token hasn't expired, no need to do anything
-            console.info("Token still valid");
+            console.info("Access Token still valid");
             return;
         }
     };

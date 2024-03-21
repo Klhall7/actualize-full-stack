@@ -34,7 +34,10 @@ def handle_exception(e):
     if isinstance(e, AuthApiError): #custom based on AuthApiError
         if "User already registered" in str(e): 
             error_code = status.HTTP_409_CONFLICT  
-            error_detail = "Already Registered"  
+            error_detail = "Already Registered"
+        elif "Invalid Refresh Token: Already Used" in str(e):
+            error_code = status.HTTP_409_CONFLICT 
+            error_detail = "Refresh Token Already Used. Redirect"   
         elif "Invalid login credentials" in str(e):
             error_code = status.HTTP_401_UNAUTHORIZED  
             error_detail = "Invalid Credentials" 
@@ -43,7 +46,7 @@ def handle_exception(e):
             error_detail = "Authentication Failed"  
     else: #any not AuthApiError
         error_code = status.HTTP_500_INTERNAL_SERVER_ERROR  
-        error_detail = "Error Processing Auth Request" 
+        error_detail = f"Error Processing Fetch Request: {str(e)}" 
 
     raise HTTPException(
         status_code=error_code,
@@ -75,15 +78,23 @@ def login_user(request: User):
     return response
     
 @app.get("/logout") 
-def logout_user():
-    response = supabase.auth.sign_out()
+def logout_user(): 
+    """reads jwt from client storage to sign a user out, frontend handles success"""
+    try:
+        response = supabase.auth.sign_out()
+        
+    except Exception as e:
+        handle_exception(e)
     return response
-    #reads jwt from server storage
+    
     
 @app.get("/profile/{id}") 
 async def get_profile_by_id(id: str):
     """Retrieves profile for current user - json object"""
-    profile_data = supabase.table("profile").select("*").eq("id", id).execute()
+    try:
+        profile_data = supabase.table("profile").select("*").eq("id", id).execute()
+    except Exception as e:
+        handle_exception(e)
     return profile_data
 
 @app.put("/update-profile/{id}") #must pass access token for authorization
@@ -97,10 +108,11 @@ async def update_profile(id: str, update: Profile):
             "username": update.username if update.username else existing_profile['username'],
         }
         profile_updated = supabase.table('profile').update(update_data).eq("id", id).execute()
-        return profile_updated
-
+        
     except Exception as e:
-        return {"error": f"An error occurred while updating your profile data: {str(e)}. Please try again, and contact us if the issue persists."}
+        raise Exception( {"error": f"An error occurred while updating your profile data: {str(e)}. Please try again, and contact us if the issue persists."})
+    
+    return profile_updated
 
 @app.post("/add-task")
 async def add_task(insert: Task):
@@ -113,16 +125,19 @@ async def add_task(insert: Task):
             "description": insert.description,
             "user_id": insert.user_id, #set to "loginId" from server storage
             "status_id": insert.status_id #default 1 at creation restrict vals on front
-        }).execute()
-        return new_task
+        }).execute()    
     except Exception as e:
-        return {"error": f"An error occurred while adding the task: {str(e)}. Please check that you have a valid entry and try again. If the issue persists contact us with a screenshot so we can work on fixing it"}
+        raise Exception({"error": f"An error occurred while adding the task: {str(e)}. Please check that you have a valid entry and try again. If the issue persists contact us with a screenshot so we can work on fixing it"})  
+    return new_task
 
 @app.get("/tasks/user/{user_id}")
 async def get_user_tasks(user_id: str):
     """Retrieves all tasks created by a specific user_id.- json type object"""
-    user_tasks = supabase.table("tasks").select("*").eq("user_id", user_id).execute()
-    return user_tasks.model_dump()
+    try:
+        user_tasks = supabase.table("tasks").select("*").eq("user_id", user_id).execute()   
+    except Exception as e:
+        handle_exception(e)
+    return user_tasks
 
 @app.get("/tasks/status/{user_id}")
 async def get_tasks_status_count(user_id: str):
@@ -137,7 +152,7 @@ async def get_tasks_status_count(user_id: str):
         return status_counts
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error fetching tasks: {str(e)}")
+        handle_exception(e)
     
 @app.put("/update-task/{id}") #fetch upon save button
 async def update_task(id: int, update: Task): 
@@ -168,14 +183,17 @@ async def refresh_token(request: Request):
     data = await request.json()
     token = data.get('refresh_token')
 
-    session = supabase.auth.refresh_session(token)
-    if session is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid session",
-        )
-    return session
-    
+    try:
+        session = supabase.auth.refresh_session(token)
+        if session is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid session",
+            )
+        return session
+    except Exception as e:
+        handle_exception(e)
+
 
 
 
