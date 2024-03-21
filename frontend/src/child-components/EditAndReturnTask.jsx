@@ -33,19 +33,15 @@ const EditAndReturnTask = ({ task }) => {
                 body: JSON.stringify(submittedData),
             }).then((response) => response.json());
 
-            if (!editResponse.status === 200) {
-                throw new Error(
-                    `API request failed with status: ${editResponse.status}`
-                );
-            }
-
-            console.log("submit api response:", editResponse);
+            console.log("edit successful json response:", editResponse);
             alert(`successfully edited task`);
+            //returns edited task object, can use to display 
             return editResponse;
+
         } catch (error) {
-            console.error("API RESPONSE ERROR: ", error);
-            alert(`${error.message}`);
-            return false;
+            console.error("EDIT ERROR JSON RESPONSE: ", error);
+            alert(`${error.error_detail}`);
+            return;
         }
     };
 

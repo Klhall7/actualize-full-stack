@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
                 // Handle fetch errors
                 const error = await response.json();
                 console.error("SERVER RESPONSE ERROR:", error);
-                if (error.error_status === 409) {
+                if (error.error_code === 409) {
                     alert(
                         "A session refresh conflict occurred.You need to login again."
                     );
