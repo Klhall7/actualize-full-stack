@@ -19,6 +19,7 @@ export function AuthProvider({ children }) {
         const expiration = Number(localStorage.getItem("session_expires_at"));
         const now = Math.floor(Date.now() / 1000);
         if (now > expiration) {
+            console.log("access token expired, using refresh token")
             const refresh_token = localStorage.getItem("session_refresh_token");
             const url = `${import.meta.env.VITE_SOURCE_URL}/refresh`;
             const response = await fetch(url, {
@@ -58,11 +59,12 @@ export function AuthProvider({ children }) {
                     return;
                 } else {
                     console.error("Server Error Detail:", error.detail);
+                    return
                 }
             }
         } else {
             // If the token hasn't expired, no need to do anything
-            console.info("Access Token still valid");
+            // console.info("Access Token still valid");
             return;
         }
     };
