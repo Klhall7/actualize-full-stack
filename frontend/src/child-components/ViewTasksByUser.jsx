@@ -16,9 +16,9 @@ export async function loader() {
         });
 
         if (!response === 200) {
-            const status = response.statusCode
-            const errorMessage = `Loading FAILED: ${status}`
-            return errorMessage
+            const status = response.statusCode;
+            const errorMessage = `Loading FAILED: ${status}`;
+            return errorMessage;
         }
 
         const data = await response.json();
@@ -45,13 +45,19 @@ const ViewTasksByUser = () => {
     const handleClick = (task) => {
         console.log("Edit Clicked, PROP Passed:", task);
         setTask(task);
-        setShowForm(true);
+        setShowForm(!showForm);
     };
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute:"numeric" };
-        return date.toLocaleDateString('en-US', options); // Adjust for your locale
+        const options = {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+        };
+        return date.toLocaleDateString("en-US", options); // Adjust for your locale
     };
 
     return (
