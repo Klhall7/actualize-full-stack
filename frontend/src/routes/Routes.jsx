@@ -58,7 +58,7 @@ const Routes = () => {
                     children: [
                         // Nested routes within dashboard to be rendered in outlet
                         {
-                            path: "", 
+                            path: "/dashboard/", 
                             element: <ProgressAndUrgentTasks />,
                         },
                         {

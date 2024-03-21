@@ -1,28 +1,20 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import NewTaskForm from "./NewTaskForm";
 
-const NewTaskModal = () => {
-    const [isOpen, setIsOpen] = useState(false);
+// eslint-disable-next-line react/prop-types
+const NewTaskModal = ({ isOpen, onClose }) => {
+    console.log("NewTaskModal rendered" );
     const modalRef = useRef(null);
 
     const handleCloseModal = () => {
-        setIsOpen(false);
+        onClose(); //prop callback, boolean state set in AsideMenu(parent)
     };
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (modalRef.current && !modalRef.current.contains(event.target)) {
-                handleCloseModal();
-            }
-        };
-
-        // for outside clicks
-        document.addEventListener("click", handleClickOutside);
-
-        return () => {
-            document.removeEventListener("click", handleClickOutside);
-        };
-    }, [isOpen]); // Only run when modal visibility changes
+        if (isOpen && modalRef.current) {
+          modalRef.current.focus(); // Focus the modal element when it opens
+        }
+    }, [isOpen]);
 
     return (
         <>
@@ -31,10 +23,7 @@ const NewTaskModal = () => {
                     <div className="modal-content">
                         <NewTaskForm
                             //form handles it's own submission
-                            onClose={() => {
-                                handleCloseModal();
-                                //refresh the local page;
-                            }}
+                            onClose={handleCloseModal}
                         />{" "}
                         <button onClick={handleCloseModal}>Close</button>
                     </div>

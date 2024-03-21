@@ -38,7 +38,21 @@
 .newTaskButton {
     width: fit-content;
     height: max-content;
-    background: green;
+    background: rgba(203, 70, 70, 0.68);
+    border-radius: 50%;
+    border-style: groove;
+    color: white;
+    place-self: flex-end;
+    margin-bottom: none;
+    padding:none;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.newTaskButtonActive {
+    width: fit-content;
+    height: max-content;
+    background: rgba(53, 144, 53, 0.87);
     border-radius: 50%;
     border-style: groove;
     color: white;
