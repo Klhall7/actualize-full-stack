@@ -27,6 +27,7 @@ export async function action({ request }) {
             localStorage.clear(); //precaution
             localStorage.setItem("accessToken", accessToken);
             return redirect("/login");
+            
         } else {
             const errorText = await response.text();
             const errorDetail = JSON.parse(errorText);

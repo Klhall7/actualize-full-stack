@@ -7,9 +7,7 @@ import AsideMenu from "../components/AsideMenu";
 import ContentContainer from "../components/ContentContainer";
 
 const DashboardPage = () => {
-    //check if token needs refresh before loading
-    const { refreshSession } = useAuth();
-
+    const { refreshSession } = useAuth(); //check if token needs refresh before loading
     useEffect(() => {
         refreshSession();
     }, [refreshSession]);
@@ -20,8 +18,8 @@ const DashboardPage = () => {
                 <DashNav />
             </header>
             <div className="dashboard-container" style={{ display: "flex" }}>
-                <AsideMenu 
-                />
+                <AsideMenu/>
+
                 <ContentContainer>
                     <Outlet /> {/* child component rendering */}
                 </ContentContainer>

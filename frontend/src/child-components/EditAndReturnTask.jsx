@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 
+/* eslint-disable react/prop-types */
 const EditAndReturnTask = ({ task }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -35,9 +35,9 @@ const EditAndReturnTask = ({ task }) => {
 
             console.log("edit successful json response:", editResponse);
             alert(`successfully edited task`);
-            //returns edited task object, can use to display 
+            //returns edited task object, can use to display
             return editResponse;
-
+            
         } catch (error) {
             console.error("EDIT ERROR JSON RESPONSE: ", error);
             alert(`${error.error_detail}`);

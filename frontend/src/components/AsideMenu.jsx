@@ -12,7 +12,7 @@ const AsideMenu = () => {
     ];
     const [activeMenuItem, setActiveMenuItem] = useState(() => {
         return menuItems[0].id; // Set "Focus My Day" as initial active menu item
-    }); 
+    });
 
     const navigate = useNavigate();
 
@@ -23,19 +23,24 @@ const AsideMenu = () => {
     };
 
     const [showModal, setShowModal] = useState(false);
-    const handleClick = () => {
+    const handleOpenModal = () => {
         setShowModal(true);
+        console.log("New Task Button Clicked")
+        console.log("show modal state handle open", showModal);
     };
+    const handleCloseModal = () => {
+        setShowModal(false);
+        console.log("show modal state handle close", showModal);
+    }
 
     return (
         <aside className={styles.asideMenu}>
-            <button
-                        className={styles.newTaskButton}
-                        onClick={handleClick}
-                    >
-                        +
-                    </button>
-                    {showModal && <NewTaskModal />}
+            <button 
+            className={showModal ? styles.newTaskButtonActive : styles.newTaskButton}
+            onClick={handleOpenModal}>
+                +
+            </button>
+            {showModal && <NewTaskModal isOpen={showModal} onClose={handleCloseModal} />}
             <ul>
                 {/* Iterate object array and create clickable list items*/}
                 {menuItems.map((menuItem) => (

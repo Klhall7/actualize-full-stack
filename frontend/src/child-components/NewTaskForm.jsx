@@ -35,17 +35,14 @@ const [errorMessage, setErrorMessage] = useState(null)
                 body: JSON.stringify(submittedData),
             }).then((response) => response.json());
 
-            if (response.status === 200) {
-                console.log("new task object:", response);
+                console.log("new task array:", response.data[0]);
                 alert(`Task successfully created`);
-                onClose();
-            } else {
-                const errorData = await response.json();
-                setErrorMessage(errorData.message);
-            }
+                onClose(); // prop callback from modal, passed in render 
+
         } catch (error) {
-            console.error("API RESPONSE ERROR:", error);
-            setErrorMessage(`Error creating task: ${error.message}`)
+            console.error("Create Task ERROR JSON:", error);
+            setErrorMessage(error.error_detail)
+            console.log(errorMessage)
         }
     };
 
@@ -57,7 +54,7 @@ const [errorMessage, setErrorMessage] = useState(null)
                 style={{
                     display: "flex",
                     flexDirection: "column",
-                    border: "solid 2px red",
+                    border: "solid 2px green",
                 }}
             >
                 <p>

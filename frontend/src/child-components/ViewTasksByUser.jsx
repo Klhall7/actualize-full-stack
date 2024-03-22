@@ -15,23 +15,21 @@ export async function loader() {
             },
         });
 
-        if (!response === 200) {
-            const status = response.statusCode;
-            const errorMessage = `Loading FAILED: ${status}`;
+        if (!response.status === 200) {
+            const errorMessage = `GET Tasks FAILED: ${response.error_detail}`;
             return errorMessage;
         }
 
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("ERROR: ", error.message);
-        return false;
+        console.error("ERROR: ", error);
+        return;
     }
 }
 
 const ViewTasksByUser = () => {
     const { refreshSession } = useAuth();
-
     useEffect(() => {
         refreshSession();
     }, [refreshSession]);
@@ -41,7 +39,6 @@ const ViewTasksByUser = () => {
 
     const [showForm, setShowForm] = useState(false);
     const [task, setTask] = useState(null);
-
     const handleClick = (task) => {
         console.log("Edit Clicked, PROP Passed:", task);
         setTask(task);

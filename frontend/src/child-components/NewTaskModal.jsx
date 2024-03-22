@@ -18,8 +18,8 @@ const NewTaskModal = ({ isOpen, onClose }) => {
 
     return (
         <>
-            {isOpen && ( // Render the modal only when visible
-                <div className="modal" ref={modalRef}>
+            {isOpen && ( // Render the modal when visible
+                <div className="modal" ref={modalRef} style={{backgroundColor:"grey"}}>
                     <div className="modal-content">
                         <NewTaskForm
                             //form handles it's own submission
