@@ -25,22 +25,29 @@ const AsideMenu = () => {
     const [showModal, setShowModal] = useState(false);
     const handleOpenModal = () => {
         setShowModal(true);
-        console.log("New Task Button Clicked")
+        console.log("New Task Button Clicked");
         console.log("show modal state handle open", showModal);
     };
     const handleCloseModal = () => {
         setShowModal(false);
         console.log("show modal state handle close", showModal);
-    }
+    };
 
     return (
         <aside className={styles.asideMenu}>
-            <button 
-            className={showModal ? styles.newTaskButtonActive : styles.newTaskButton}
-            onClick={handleOpenModal}>
+            <button
+                className={
+                    showModal
+                        ? styles.newTaskButtonActive
+                        : styles.newTaskButton
+                }
+                onClick={handleOpenModal}
+            >
                 +
             </button>
-            {showModal && <NewTaskModal isOpen={showModal} onClose={handleCloseModal} />}
+            {showModal && (
+                <NewTaskModal isOpen={showModal} onClose={handleCloseModal} />
+            )}
             <ul>
                 {/* Iterate object array and create clickable list items*/}
                 {menuItems.map((menuItem) => (

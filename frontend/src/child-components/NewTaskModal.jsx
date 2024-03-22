@@ -3,7 +3,7 @@ import NewTaskForm from "./NewTaskForm";
 
 // eslint-disable-next-line react/prop-types
 const NewTaskModal = ({ isOpen, onClose }) => {
-    console.log("NewTaskModal rendered" );
+    console.log("NewTaskModal rendered");
     const modalRef = useRef(null);
 
     const handleCloseModal = () => {
@@ -12,14 +12,18 @@ const NewTaskModal = ({ isOpen, onClose }) => {
 
     useEffect(() => {
         if (isOpen && modalRef.current) {
-          modalRef.current.focus(); // Focus the modal element when it opens
+            modalRef.current.focus(); // Focus the modal element when it opens
         }
     }, [isOpen]);
 
     return (
         <>
             {isOpen && ( // Render the modal when visible
-                <div className="modal" ref={modalRef} style={{backgroundColor:"grey"}}>
+                <div
+                    className="modal"
+                    ref={modalRef}
+                    style={{ backgroundColor: "grey" }}
+                >
                     <div className="modal-content">
                         <NewTaskForm
                             //form handles it's own submission

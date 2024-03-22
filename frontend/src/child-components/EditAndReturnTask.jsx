@@ -1,6 +1,9 @@
+import { useState } from "react";
 
 /* eslint-disable react/prop-types */
-const EditAndReturnTask = ({ task }) => {
+const EditAndReturnTask = ({ task, onClose }) => {
+    const [errorMessage, setErrorMessage] = useState(null);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -33,14 +36,16 @@ const EditAndReturnTask = ({ task }) => {
                 body: JSON.stringify(submittedData),
             }).then((response) => response.json());
 
-            console.log("edit successful json response:", editResponse);
+            console.log("edit success json response:", editResponse);
+            const editedTaskArray = editResponse.data[0]
             alert(`successfully edited task`);
-            //returns edited task object, can use to display
-            return editResponse;
+            onClose()
+            return editedTaskArray;
             
         } catch (error) {
             console.error("EDIT ERROR JSON RESPONSE: ", error);
-            alert(`${error.error_detail}`);
+            setErrorMessage(`${error.error_code}: ${error.error_detail}`);
+            console.log(errorMessage);
             return;
         }
     };
@@ -97,6 +102,11 @@ const EditAndReturnTask = ({ task }) => {
                 </label>
                 <button type="submit">Save and Submit</button>
             </form>
+            {errorMessage && (
+                <div className="error-container">
+                    <p className="error-message">{errorMessage}</p>
+                </div>
+            )}
         </>
     );
 };

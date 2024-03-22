@@ -1,3 +1,4 @@
+import styles from "../styles/ContentContainer.module.css";
 import { useLoaderData } from "react-router-dom";
 import { useState, useEffect } from "react";
 import EditAndReturnTask from "./EditAndReturnTask";
@@ -15,16 +16,13 @@ export async function loader() {
             },
         });
 
-        if (!response.status === 200) {
-            const errorMessage = `GET Tasks FAILED: ${response.error_detail}`;
-            return errorMessage;
-        }
-
         const data = await response.json();
+        console.log("Get tasks loader successful"); //data used with map on return
         return data;
     } catch (error) {
-        console.error("ERROR: ", error);
-        return;
+        console.error("GET MY TASKS ERROR: ", error);
+        const errorMessage = `${error.error_code}: ${error.error_detail}`;
+        return errorMessage;
     }
 }
 
@@ -34,15 +32,20 @@ const ViewTasksByUser = () => {
         refreshSession();
     }, [refreshSession]);
 
-    const { data, error } = useLoaderData();
-    console.log("all tasks loader response:", data);
+    const { data, errorMessage, isLoading } = useLoaderData();
+    console.log("task object to map:", data);
 
     const [showForm, setShowForm] = useState(false);
     const [task, setTask] = useState(null);
     const handleClick = (task) => {
-        console.log("Edit Clicked, PROP Passed:", task);
+        console.log("Edit Clicked, Prop Passed:", task);
         setTask(task);
         setShowForm(!showForm);
+    };
+
+    const handleCloseOnSuccess = () => {
+        setShowForm(false);
+        console.log("edit form close on success triggered ", showForm);
     };
 
     const formatDate = (dateString) => {
@@ -60,29 +63,48 @@ const ViewTasksByUser = () => {
     return (
         <>
             <h2>All Tasks</h2>
-            {error && <p>{error}</p>} {/* Display error if present */}
-            <ul>
-                {data.map((task, index) => {
-                    return (
-                        <li key={index}>
-                            Task {task.id}{" "}
-                            <button
-                                type="button"
-                                onClick={() => handleClick(task)}
-                            >
-                                Edit
-                            </button>
-                            <br />
-                            Title: {task.title}
-                            <br />
-                            Due By: {formatDate(task.due_date)}
-                            <br />
-                            Description: {task.description}
-                        </li>
-                    );
-                })}
-            </ul>
-            {showForm && task && <EditAndReturnTask task={task} />}
+            {isLoading && (
+                <p className="loading-message">
+                    Content loading, Please be patient...
+                </p>
+            )}
+            {!isLoading &&
+                errorMessage && ( //Display error if present
+                    <div className="error-container">
+                        <p className="error-message">{errorMessage}</p>
+                    </div>
+                )}{" "}
+            {!isLoading && data && (
+                <div>
+                    <ul className={styles.taskContainer}>
+                        {data.map((task, index) => {
+                            return (
+                                <li key={index} className={styles.taskCard}>
+                                    Task {task.id}{" "}
+                                    <button
+                                        type="button"
+                                        onClick={() => handleClick(task)}
+                                    >
+                                        Edit
+                                    </button>
+                                    <br />
+                                    Title: {task.title}
+                                    <br />
+                                    Due By: {formatDate(task.due_date)}
+                                    <br />
+                                    Description: {task.description}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                    {showForm && task && (
+                        <EditAndReturnTask
+                            task={task}
+                            onClose={handleCloseOnSuccess}
+                        />
+                    )}
+                </div>
+            )}
         </>
     );
 };

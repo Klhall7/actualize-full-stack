@@ -1,11 +1,11 @@
 import { useState } from "react";
 // eslint-disable-next-line react/prop-types
 const NewTaskForm = ({ onClose }) => {
-const [errorMessage, setErrorMessage] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const handleSubmit = async (event) => {
         setErrorMessage(null); // Clear any previous error message
-    
+
         event.preventDefault();
         const formData = new FormData(event.target);
         const title = formData.get("title");
@@ -35,14 +35,16 @@ const [errorMessage, setErrorMessage] = useState(null)
                 body: JSON.stringify(submittedData),
             }).then((response) => response.json());
 
-                console.log("new task array:", response.data[0]);
-                alert(`Task successfully created`);
-                onClose(); // prop callback from modal, passed in render 
+            console.log("new task array:", response.data[0]);
+            const newTaskArray = response.data[0];
+            alert(`Task successfully created`);
+            onClose(); // prop callback from modal, passed in render
+            return newTaskArray
 
         } catch (error) {
-            console.error("Create Task ERROR JSON:", error);
-            setErrorMessage(error.error_detail)
-            console.log(errorMessage)
+            console.error("Create Task ERROR:", error); //check error
+            setErrorMessage(`${error.error_code}: ${error.error_detail}`);
+            console.log(errorMessage);
         }
     };
 
@@ -101,8 +103,12 @@ const [errorMessage, setErrorMessage] = useState(null)
                         defaultValue="1"
                     />
                 </label>
-                <button type="submit">Save and Submit</button>
-                {errorMessage && <div className="error-message">{errorMessage}</div>}
+                <button type="submit">Save and Submit</button>{" "}
+                {errorMessage && (
+                    <div className="error-container">
+                        <p className="error-message">{errorMessage}</p>
+                    </div>
+                )}
             </form>
         </>
     );

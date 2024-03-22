@@ -1,16 +1,17 @@
-import { Outlet } from "react-router-dom";
-import { useEffect } from "react";
-import { useAuth } from "../AuthContext";
+// import { useEffect } from "react";
+// import { useAuth } from "../AuthContext";
 
 import DashNav from "../components/dashNav";
 import AsideMenu from "../components/AsideMenu";
 import ContentContainer from "../components/ContentContainer";
+import { Outlet } from "react-router-dom";
 
 const DashboardPage = () => {
-    const { refreshSession } = useAuth(); //check if token needs refresh before loading
-    useEffect(() => {
-        refreshSession();
-    }, [refreshSession]);
+    // const { refreshSession } = useAuth(); //check if token needs refresh before loading
+    // useEffect(() => {
+    //     refreshSession();
+    // }, [refreshSession]);
+
 
     return (
         <>
@@ -18,11 +19,10 @@ const DashboardPage = () => {
                 <DashNav />
             </header>
             <div className="dashboard-container" style={{ display: "flex" }}>
-                <AsideMenu/>
-
-                <ContentContainer>
-                    <Outlet /> {/* child component rendering */}
-                </ContentContainer>
+                <AsideMenu />
+                    <ContentContainer > 
+                        <Outlet /> {/* child component rendering */}
+                    </ContentContainer>
             </div>
         </>
     );
