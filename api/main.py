@@ -86,9 +86,8 @@ def logout_user():
     except Exception as e:
         handle_exception(e)
     return response
-    
-    
-@app.get("/profile/{id}") 
+
+@app.get(f"/profile/{id}") 
 async def get_profile_by_id(id: str):
     """Retrieves profile for current user - json object"""
     try:
@@ -116,15 +115,18 @@ async def update_profile(id: str, update: Profile):
 
 @app.post("/add-task")
 async def add_task(insert: Task):
-    """adds a new task into the tasks db"""
+    """adds a new task into the tasks db, some fields optional"""
     print(insert)
     try:
         new_task = supabase.table('tasks').insert({
             "title": insert.title,
             "due_date": insert.due_date if insert.due_date else None,
-            "description": insert.description,
+            "purpose_description": insert.purpose_description,
             "user_id": insert.user_id, #set to "loginId" from server storage
-            "status_id": insert.status_id #default 1 at creation restrict vals on front
+            "status_id": insert.status_id, #default 1 at creation restrict vals on front
+            "completion_count": insert.completion_count if insert.completion_count else None,
+            "achievement_steps": insert.achievement_steps if insert.achievement_steps else None,
+            "category": insert.category
         }).execute()    
     except Exception as e:
         raise Exception({"error": f"An error occurred while adding the task: {str(e)}. Please check that you have a valid entry and try again. If the issue persists contact us with a screenshot so we can work on fixing it"})  
@@ -161,8 +163,11 @@ async def update_task(id: int, update: Task):
         task_updated = supabase.table('tasks').update({ 
             "title": update.title,
             "due_date": update.due_date if update.due_date else None,
-            "description": update.description,
-            "status_id": update.status_id #dropdown of controlled values
+            "purpose_description": update.purpose_description,
+            "status_id": update.status_id, #dropdown of controlled values
+            "completion_count": update.completion_count if update.completion_count else None,
+            "achievement_steps": update.achievement_steps if update.achievement_steps else None,
+            "category": update.category
         }).eq("id", id).execute()
         return task_updated
     except Exception as e:

@@ -65,7 +65,8 @@ const ViewTasksByUser = () => {
             <h2>All Tasks</h2>
             {isLoading && (
                 <p className="loading-message">
-                    Content loading, Please be patient...
+                    Retrieving and loading all of your created tasks. Please be
+                    patient...
                 </p>
             )}
             {!isLoading &&
@@ -90,9 +91,27 @@ const ViewTasksByUser = () => {
                                     <br />
                                     Title: {task.title}
                                     <br />
-                                    Due By: {formatDate(task.due_date)}
+                                    Category: {task.category}
                                     <br />
-                                    Description: {task.description}
+                                    Intent: {task.purpose_description}
+                                    <br />
+                                    {task.due_date &&
+                                        task.due_date.length > 1 && (
+                                            <>
+                                                Goal Deadline:{" "}
+                                                {formatDate(task.due_date)}
+                                            </>
+                                        )}
+                                    <br />
+                                    {task.completion_count >= 0 && (
+                                        <>
+                                            Weekly Completion Count:{" "}
+                                            {task.completion_count}
+                                        </>
+                                    )}
+                                    <br />
+                                    Steps to Achievement: {task.achievement_steps}
+                                    <br />
                                 </li>
                             );
                         })}
