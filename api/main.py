@@ -182,7 +182,7 @@ async def refresh_token(request: Request):
     """processes request to refresh a session in case a user's token expired"""
     data = await request.json()
     token = data.get('refresh_token')
-
+    print(token)
     try:
         session = supabase.auth.refresh_session(token)
         if session is None:

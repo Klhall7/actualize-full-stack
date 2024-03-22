@@ -18,9 +18,14 @@ export function AuthProvider({ children }) {
     const refreshSession = async () => {
         const expiration = Number(localStorage.getItem("session_expires_at"));
         const now = Math.floor(Date.now() / 1000);
+
         if (now > expiration) {
-            console.log("access token expired, using refresh token")
+            console.log(
+                `session expired ${now} > ${expiration}.Attempting refresh`
+            );
             const refresh_token = localStorage.getItem("session_refresh_token");
+            console.log("CURRENT REFRESH TOKEN", refresh_token);
+
             const url = `${import.meta.env.VITE_SOURCE_URL}/refresh`;
             const response = await fetch(url, {
                 method: "POST",
@@ -34,7 +39,9 @@ export function AuthProvider({ children }) {
                 const data = await response.json();
                 const { session, user } = data;
                 localStorage.clear();
-                console.log("storage cleared, attempting session refresh");
+                console.log(
+                    "refresh response successful. Storage cleared and being replaced new data"
+                );
                 localStorage.setItem("loginId", user.id);
                 localStorage.setItem("accessToken", session.access_token);
                 localStorage.setItem(
@@ -42,6 +49,9 @@ export function AuthProvider({ children }) {
                     session.refresh_token
                 );
                 localStorage.setItem("session_expires_at", session.expires_at);
+
+                const new_token = localStorage.getItem("session_refresh_token");
+                console.log("NEW REFRESH TOKEN", new_token);
             } else {
                 // Handle fetch errors
                 const error = await response.json();
@@ -59,7 +69,7 @@ export function AuthProvider({ children }) {
                     return;
                 } else {
                     console.error("Server Error Detail:", error.detail);
-                    return
+                    return;
                 }
             }
         } else {
