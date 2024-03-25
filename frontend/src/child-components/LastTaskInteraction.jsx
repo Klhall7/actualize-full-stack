@@ -33,8 +33,7 @@ const LastTaskInteraction = () => {
                                 {formatDate(array.key.goal.due_date)}
                             </>
                         )}
-                    <br />
-                    {array.key.goal.completion_count >= 0 && (
+                    {array.key.goal.completion_count && (
                         <>
                             Weekly Completion Count:{" "}
                             {array.key.goal.completion_count}
@@ -42,7 +41,6 @@ const LastTaskInteraction = () => {
                     )}
                     <br />
                     Steps to Achievement: {array.key.goal.achievement_steps}
-                    <br />
                 </li>
             </ul>
         </>

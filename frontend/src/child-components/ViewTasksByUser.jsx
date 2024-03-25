@@ -103,7 +103,6 @@ const ViewTasksByUser = () => {
                                                 {formatDate(task.due_date)}
                                             </>
                                         )}
-                                    <br />
                                     {task.completion_count >= 0 && (
                                         <>
                                             Weekly Completion Count:{" "}

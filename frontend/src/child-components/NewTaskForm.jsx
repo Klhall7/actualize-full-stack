@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 // eslint-disable-next-line react/prop-types
 const NewTaskForm = ({ onClose }) => {
     const [errorMessage, setErrorMessage] = useState(null);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         setErrorMessage(null); // Clear any previous error message
@@ -47,7 +47,7 @@ const NewTaskForm = ({ onClose }) => {
             console.log("new task array:", response.data[0]);
             const goal = response.data[0];
             onClose(); // prop callback from modal, passed in render
-            navigate("/dashboard/view-last-task", { state: { key: {goal} } });
+            navigate("/dashboard/view-last-task", { state: { key: { goal } } });
             return goal;
         } catch (error) {
             console.error("Create Task ERROR:", error); //check error
@@ -55,6 +55,17 @@ const NewTaskForm = ({ onClose }) => {
             console.log(errorMessage);
         }
     };
+
+    const categories = [
+        "Mental Health",
+        "Physical Health",
+        "Social Health",
+        "Organization",
+        "Productivity",
+        "Skill Development",
+        "Career",
+        "Finances",
+    ];
 
     return (
         //defaultValue prevents unnecessary changes and helps with UI
@@ -72,15 +83,16 @@ const NewTaskForm = ({ onClose }) => {
                 </p>
                 <label>
                     Category:
-                    <input
-                        type="text"
-                        name="category"
-                        placeholder="select the category this falls under"
-                        required //set to dropdown
-                    />
+                    <select name="category" required>
+                        {categories.map((category) => (
+                            <option key={category} value={category}>
+                                {category}
+                            </option>
+                        ))}
+                    </select>
                 </label>{" "}
                 <label>
-                    Value to you:
+                    Purpose:
                     <textarea
                         type="text"
                         name="purpose_description"
@@ -89,7 +101,7 @@ const NewTaskForm = ({ onClose }) => {
                     />
                 </label>{" "}
                 <label>
-                    Due Date(optional):
+                    Due Date (optional):
                     <input
                         type="datetime-local"
                         name="date"
@@ -98,7 +110,7 @@ const NewTaskForm = ({ onClose }) => {
                     />
                 </label>{" "}
                 <label>
-                    Weekly Consistency Count(optional):
+                    Weekly Consistency Count (optional):
                     <input
                         type="number" //optional
                         name="completion_count"
@@ -109,8 +121,7 @@ const NewTaskForm = ({ onClose }) => {
                 </label>{" "}
                 <label>
                     Achievement Steps/Tasks:
-                    <input
-                        type="text"
+                    <textarea
                         name="achievement_steps"
                         placeholder="identify at least one step to start your achieving your goal"
                         required

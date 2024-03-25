@@ -57,6 +57,17 @@ const EditAndReturnTask = ({ task, onClose }) => {
         }
     };
 
+    const categories = [
+        "Mental Health",
+        "Physical Health",
+        "Social Health",
+        "Organization",
+        "Productivity",
+        "Skill Development",
+        "Career",
+        "Finances",
+    ];
+
     return (
         //defaultValue prevents unnecessary changes and helps with UI
         <>
@@ -73,12 +84,13 @@ const EditAndReturnTask = ({ task, onClose }) => {
                 </p>
                 <label>
                     Category:
-                    <input
-                        type="text"
-                        name="category"
-                        defaultValue={task.category}
-                        // dropdown of health, fitness etc
-                    />
+                    <select name="category" required>
+                        {categories.map((category) => (
+                            <option key={category} defaultValue={task.category}>
+                                {category}
+                            </option>
+                        ))}
+                    </select>
                 </label>{" "}
                 <label>
                     Title:
@@ -86,8 +98,7 @@ const EditAndReturnTask = ({ task, onClose }) => {
                 </label>{" "}
                 <label>
                     Purpose:
-                    <input
-                        type="text"
+                    <textarea
                         name="description"
                         defaultValue={task.purpose_description}
                     />
@@ -103,32 +114,28 @@ const EditAndReturnTask = ({ task, onClose }) => {
                         //refine to dropdown text that gets converted to number (1=not started etc.)
                     />
                 </label>{" "}
-                {task.completion_count && (
-                    <label>
-                        Weekly Consistency Count:
-                        <input
-                            type="number" //optional
-                            name="completion_count"
-                            min="0"
-                            max="7"
-                            defaultValue={task.completion_count}
-                        />
-                    </label>
-                )}
-                {task.due_date && task.due_date.length > 1 && (
-                    <label>
-                        Due_Date:
-                        <input
-                            type="datetime-local" //optional
-                            name="date"
-                            defaultValue={task.due_date}
-                            //string on formData submit then backend sets compatible timestamp
-                        />
-                    </label>
-                )}
+                <label>
+                    Weekly Consistency Count (optional):
+                    <input
+                        type="number" //optional
+                        name="completion_count"
+                        min="0"
+                        max="7"
+                        defaultValue={task.completion_count}
+                    />
+                </label>
+                <label>
+                    Due_Date (optional):
+                    <input
+                        type="datetime-local" //optional
+                        name="date"
+                        defaultValue={task.due_date}
+                        //string on formData submit then backend sets compatible timestamp
+                    />
+                </label>
                 <label>
                     Achievement Steps:
-                    <input
+                    <textarea
                         type="text"
                         name="achievement_steps"
                         defaultValue={task.achievement_steps}
