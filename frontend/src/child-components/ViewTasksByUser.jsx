@@ -1,8 +1,10 @@
 import styles from "../styles/ContentContainer.module.css";
 import { useLoaderData } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import EditAndReturnTask from "./EditAndReturnTask";
-import { useAuth } from "../AuthContext";
+
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
 
 export async function loader() {
     try {
@@ -27,26 +29,25 @@ export async function loader() {
 }
 
 const ViewTasksByUser = () => {
-    const { refreshSession } = useAuth();
-    useEffect(() => {
-        refreshSession();
-    }, [refreshSession]);
 
     const { data, errorMessage, isLoading } = useLoaderData();
     console.log("task object to map:", data);
 
-    const [showForm, setShowForm] = useState(false);
+    const [open, setOpen] = useState(false);
     const [task, setTask] = useState(null);
+
     const handleClick = (task) => {
         console.log("Edit Clicked, Prop Passed:", task);
         setTask(task);
-        setShowForm(!showForm);
+        setOpen(true)
     };
 
     const handleCloseOnSuccess = () => {
-        setShowForm(false);
-        console.log("edit form close on success triggered ", showForm);
+        setOpen(false);
+        console.log("edit form close on success triggered ", open);
     };
+
+    const onCloseModal = () => setOpen(false);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -93,7 +94,7 @@ const ViewTasksByUser = () => {
                                     <br />
                                     Category: {task.category}
                                     <br />
-                                    Intent: {task.purpose_description}
+                                    Purpose: {task.purpose_description}
                                     <br />
                                     {task.due_date &&
                                         task.due_date.length > 1 && (
@@ -116,12 +117,14 @@ const ViewTasksByUser = () => {
                             );
                         })}
                     </ul>
-                    {showForm && task && (
+                    <Modal open={open} onClose={onCloseModal}>
+                    {open && task && (
                         <EditAndReturnTask
                             task={task}
                             onClose={handleCloseOnSuccess}
                         />
                     )}
+                    </Modal>
                 </div>
             )}
         </>

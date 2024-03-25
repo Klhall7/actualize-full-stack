@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 // eslint-disable-next-line react/prop-types
 const NewTaskForm = ({ onClose }) => {
     const [errorMessage, setErrorMessage] = useState(null);
+    const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
         setErrorMessage(null); // Clear any previous error message
@@ -42,11 +45,10 @@ const NewTaskForm = ({ onClose }) => {
             }).then((response) => response.json());
 
             console.log("new task array:", response.data[0]);
-            const newTaskArray = response.data[0];
-            alert(`Task successfully created`);
+            const goal = response.data[0];
             onClose(); // prop callback from modal, passed in render
-            return newTaskArray
-
+            navigate("/dashboard/view-last-task", { state: { key: {goal} } });
+            return goal;
         } catch (error) {
             console.error("Create Task ERROR:", error); //check error
             setErrorMessage(`${error.error_code}: ${error.error_detail}`);
@@ -66,7 +68,7 @@ const NewTaskForm = ({ onClose }) => {
                 }}
             >
                 <p>
-                    You are creating a<span> new </span>task
+                    You are creating a<span> new </span>Goal
                 </p>
                 <label>
                     Category:
@@ -95,8 +97,8 @@ const NewTaskForm = ({ onClose }) => {
                         //string on formData submit then backend sets compatible timestamp
                     />
                 </label>{" "}
-                <label>  
-                    Weekly Consistency Count:
+                <label>
+                    Weekly Consistency Count(optional):
                     <input
                         type="number" //optional
                         name="completion_count"
@@ -105,21 +107,21 @@ const NewTaskForm = ({ onClose }) => {
                         placeholder="if you would like to measure number of times you did something"
                     />
                 </label>{" "}
-                <label> 
-                    Achievement Steps:
+                <label>
+                    Achievement Steps/Tasks:
                     <input
                         type="text"
                         name="achievement_steps"
-                        placeholder="identify at least one step to start your achieving your task"
+                        placeholder="identify at least one step to start your achieving your goal"
                         required
                     />
                 </label>{" "}
                 <label>
-                    Title:
+                    Informative Title:
                     <input
                         type="text"
                         name="title"
-                        placeholder="concise title"
+                        placeholder="title should be short and informative. If its a measurable action for example run-1m-biweekly"
                         required
                     />
                 </label>{" "}

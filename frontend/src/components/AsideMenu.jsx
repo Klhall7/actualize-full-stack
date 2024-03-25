@@ -1,13 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "../styles/AsideMenu.module.css";
-import NewTaskModal from "../child-components/NewTaskModal";
+
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
+import NewTaskForm from "../child-components/NewTaskForm";
 
 // eslint-disable-next-line react/prop-types
 const AsideMenu = () => {
     const menuItems = [
         { name: "Focus My Day", id: "" }, //load default child route
-        { name: "My Tasks", id: "view-tasks-by-user" },
+        { name: "My Tasks", id: "view-tasks-by-user" }, 
+        { name: "Filter My Tasks", id: "view-filtered-tasks" },
         // remember to add any new child components (name: for link id: for child route navigation)
     ];
     const [activeMenuItem, setActiveMenuItem] = useState(() => {
@@ -22,32 +26,37 @@ const AsideMenu = () => {
         navigate(`/dashboard/${menuItem.id}`);
     };
 
-    const [showModal, setShowModal] = useState(false);
+    const [open, setOpen] = useState(false);
+
     const handleOpenModal = () => {
-        setShowModal(true);
+        setOpen(true);
         console.log("New Task Button Clicked");
-        console.log("show modal state handle open", showModal);
+        console.log("show modal state handle open", open);
     };
     const handleCloseModal = () => {
-        setShowModal(false);
-        console.log("show modal state handle close", showModal);
+        setOpen(false);
+        console.log("show modal state handle close", open);
     };
 
     return (
         <aside className={styles.asideMenu}>
             <button
                 className={
-                    showModal
-                        ? styles.newTaskButtonActive
-                        : styles.newTaskButton
+                    open ? styles.newTaskButtonActive : styles.newTaskButton
                 }
                 onClick={handleOpenModal}
             >
                 +
             </button>
-            {showModal && (
-                <NewTaskModal isOpen={showModal} onClose={handleCloseModal} />
-            )}
+            <Modal open={open} onClose={handleCloseModal} center>
+                <div className="modal-content">
+                    <NewTaskForm
+                        //form handles it's own submission
+                        onClose={handleCloseModal}
+                    />
+                </div>
+            </Modal>
+
             <ul>
                 {/* Iterate object array and create clickable list items*/}
                 {menuItems.map((menuItem) => (

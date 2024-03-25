@@ -10,10 +10,12 @@ import Login, { action as loginPass } from "./Login";
 import Logout, { loader as logoutLoader } from "./Logout";
 import Register, { action as registerSignUp } from "./Register";
 import DashboardPage from "./DashboardPage";
-import ViewUserProfile, {loader as profileLoader }from "./ViewUserProfile";
+import ViewUserProfile, { loader as profileLoader } from "./ViewUserProfile";
 
 import ProgressAndUrgentTasks from "../child-components/ProgressAndUrgentTasks";
 import ViewTasksByUser, { loader as taskLoader } from "../child-components/ViewTasksByUser";
+import LastTaskInteraction from "../child-components/LastTaskInteraction";
+import SearchTaskByFilter from "../child-components/SearchTaskByFilter";
 
 const Routes = () => {
     const { isAuth } = useAuth();
@@ -58,13 +60,21 @@ const Routes = () => {
                     children: [
                         // Nested routes within dashboard to be rendered in outlet
                         {
-                            path: "/dashboard/", 
+                            path: "/dashboard/",
                             element: <ProgressAndUrgentTasks />,
                         },
                         {
                             path: "/dashboard/view-tasks-by-user",
                             element: <ViewTasksByUser />,
                             loader: taskLoader,
+                        },
+                        {
+                            path: "/dashboard/view-last-task",
+                            element: <LastTaskInteraction />,
+                        },
+                        {
+                            path: "/dashboard/view-filtered-tasks",
+                            element: <SearchTaskByFilter />,
                         },
                         // need to add other child component routes here as created
                     ],

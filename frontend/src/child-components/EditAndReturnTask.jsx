@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
 const EditAndReturnTask = ({ task, onClose }) => {
     const [errorMessage, setErrorMessage] = useState(null);
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -43,10 +45,10 @@ const EditAndReturnTask = ({ task, onClose }) => {
             }).then((response) => response.json());
 
             console.log("edit success json response:", editResponse);
-            const editedTaskArray = editResponse.data[0];
-            alert(`successfully edited task`);
+            const goal = editResponse.data[0];
             onClose();
-            return editedTaskArray;
+            navigate("/dashboard/view-last-task", { state: { key: { goal } } });
+            return goal;
         } catch (error) {
             console.error("EDIT ERROR JSON RESPONSE: ", error);
             setErrorMessage(`${error.error_code}: ${error.error_detail}`);
@@ -70,31 +72,27 @@ const EditAndReturnTask = ({ task, onClose }) => {
                     You are editing <span>Task {task.id}</span>
                 </p>
                 <label>
-                    {" "}
+                    Category:
+                    <input
+                        type="text"
+                        name="category"
+                        defaultValue={task.category}
+                        // dropdown of health, fitness etc
+                    />
+                </label>{" "}
+                <label>
                     Title:
                     <input type="text" name="title" defaultValue={task.title} />
-                </label>
+                </label>{" "}
                 <label>
-                    {" "}
-                    Due_Date:
-                    <input
-                        type="datetime-local" //optional
-                        name="date"
-                        defaultValue={task.due_date}
-                        //string on formData submit then backend sets compatible timestamp
-                    />
-                </label>
-                <label>
-                    {" "}
-                    Value to you:
+                    Purpose:
                     <input
                         type="text"
                         name="description"
                         defaultValue={task.purpose_description}
                     />
-                </label>
+                </label>{" "}
                 <label>
-                    {" "}
                     Progress Status:
                     <input
                         type="number"
@@ -104,20 +102,31 @@ const EditAndReturnTask = ({ task, onClose }) => {
                         defaultValue={task.status_id}
                         //refine to dropdown text that gets converted to number (1=not started etc.)
                     />
-                </label>
+                </label>{" "}
+                {task.completion_count && (
+                    <label>
+                        Weekly Consistency Count:
+                        <input
+                            type="number" //optional
+                            name="completion_count"
+                            min="0"
+                            max="7"
+                            defaultValue={task.completion_count}
+                        />
+                    </label>
+                )}
+                {task.due_date && task.due_date.length > 1 && (
+                    <label>
+                        Due_Date:
+                        <input
+                            type="datetime-local" //optional
+                            name="date"
+                            defaultValue={task.due_date}
+                            //string on formData submit then backend sets compatible timestamp
+                        />
+                    </label>
+                )}
                 <label>
-                    {" "}
-                    Weekly Consistency Count:
-                    <input
-                        type="number" //optional
-                        name="completion_count"
-                        min="0"
-                        max="7"
-                        defaultValue={task.completion_count}
-                    />
-                </label>
-                <label>
-                    {" "}
                     Achievement Steps:
                     <input
                         type="text"
@@ -125,16 +134,6 @@ const EditAndReturnTask = ({ task, onClose }) => {
                         defaultValue={task.achievement_steps}
                     />
                 </label>
-                <label>
-                    {" "}
-                    Category:
-                    <input
-                        type="text"
-                        name="category"
-                        defaultValue={task.category}
-                        // dropdown of health, fitness etc
-                    />
-                </label>{" "}
                 <button type="submit">Save and Submit</button>
             </form>
             {errorMessage && (

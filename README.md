@@ -11,6 +11,7 @@ Python (version 3.12) used for FastAPI setup.
 [Vite](https://vitejs.dev/guide/) development server and bundler, used to build my React application.  
 [React] (https://legacy.reactjs.org/) JavaScript library used for user interface. 
 [React Router](https://reacttraining.com/react-router) navigational components used for client side routing throughout the app. 
+[React Responsive Modal](https://react-responsive-modal.leopradel.com/) library used for UI when a logged in user creates and edits tasks from their dashboard. 
 
 
 
