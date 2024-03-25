@@ -68,6 +68,12 @@ const EditAndReturnTask = ({ task, onClose }) => {
         "Finances",
     ];
 
+    const statusOptions = [
+        { value: 1, label: "Not Started" },
+        { value: 2, label: "In Progress" },
+        { value: 3, label: "Completed" },
+    ];
+
     return (
         //defaultValue prevents unnecessary changes and helps with UI
         <>
@@ -99,20 +105,23 @@ const EditAndReturnTask = ({ task, onClose }) => {
                 <label>
                     Purpose:
                     <textarea
-                        name="description"
+                        name="purpose_description"
                         defaultValue={task.purpose_description}
                     />
                 </label>{" "}
                 <label>
                     Progress Status:
-                    <input
-                        type="number"
-                        name="status_id"
-                        min="1"
-                        max="1"
-                        defaultValue={task.status_id}
-                        //refine to dropdown text that gets converted to number (1=not started etc.)
-                    />
+                    <select name="status_id" required>
+                        {statusOptions.map((option) => (
+                            <option
+                                key={option.value}
+                                value= {option.value}
+                                defaultValue={task.status_id}
+                            >
+                                {option.label}
+                            </option>
+                        ))}
+                    </select>
                 </label>{" "}
                 <label>
                     Weekly Consistency Count (optional):

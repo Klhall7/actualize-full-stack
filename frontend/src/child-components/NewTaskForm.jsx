@@ -67,6 +67,10 @@ const NewTaskForm = ({ onClose }) => {
         "Finances",
     ];
 
+    const statusOptions = [
+        { value: 1, label: "Not Started" }
+    ];
+
     return (
         //defaultValue prevents unnecessary changes and helps with UI
         <>
@@ -138,14 +142,18 @@ const NewTaskForm = ({ onClose }) => {
                 </label>{" "}
                 <label>
                     {" "}
-                    Progress Status(defaults to Not Started):
-                    <input
-                        type="number"
-                        name="status_id"
-                        min="1"
-                        max="3"
-                        defaultValue="1"
-                    />
+                    Progress Status(default):
+                    <select name="status_id" required>
+                        {statusOptions.map((option) => (
+                            <option
+                                key={option.value}
+                                value= {option.value}
+                                selected={option.value === 1}
+                            >
+                                {option.label}
+                            </option>
+                        ))}
+                    </select>
                 </label>
                 <button type="submit">Save and Create Task</button>{" "}
                 {errorMessage && (

@@ -61,6 +61,12 @@ const ViewTasksByUser = () => {
         return date.toLocaleDateString("en-US", options); // Adjust for your locale
     };
 
+    const statusLabels = {
+        1: "Not Started",
+        2: "In Progress",
+        3: "Completed",
+        };
+        
     return (
         <>
             <h2>All Tasks</h2>
@@ -89,6 +95,8 @@ const ViewTasksByUser = () => {
                                     >
                                         Edit
                                     </button>
+                                    <br />
+                                    Status: {statusLabels[task.status_id]}
                                     <br />
                                     Title: {task.title}
                                     <br />
