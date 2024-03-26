@@ -111,7 +111,7 @@ const NewTaskForm = ({ onClose }) => {
                     <Tooltip id="purpose-tooltip-multiline" />
                 </label>
                 <label>
-                    Due Date:
+                    Deadline:
                     <input
                         type="datetime-local"
                         name="date"
@@ -137,7 +137,7 @@ const NewTaskForm = ({ onClose }) => {
                     <Tooltip id="consistency-tooltip-multiline" />
                 </label>
                 <label>
-                    Steps to Achievement:
+                    Actions to Achievement:
                     <textarea
                         name="achievement_steps"
                         required

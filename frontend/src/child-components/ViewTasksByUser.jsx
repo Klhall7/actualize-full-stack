@@ -5,6 +5,8 @@ import EditAndReturnTask from "./EditAndReturnTask";
 
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
+import { format } from "date-fns";
+
 
 export async function loader() {
     try {
@@ -21,6 +23,7 @@ export async function loader() {
         const data = await response.json();
         console.log("Get tasks loader successful"); //data used with map on return
         return data;
+        
     } catch (error) {
         console.error("GET MY TASKS ERROR: ", error);
         const errorMessage = `${error.error_code}: ${error.error_detail}`;
@@ -48,18 +51,6 @@ const ViewTasksByUser = () => {
     };
 
     const onCloseModal = () => setOpen(false);
-
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const options = {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-        };
-        return date.toLocaleDateString("en-US", options); // Adjust for your locale
-    };
 
     const statusLabels = {
         1: "Not Started",
@@ -96,29 +87,30 @@ const ViewTasksByUser = () => {
                                         Edit
                                     </button>
                                     <br />
-                                    Status: {statusLabels[task.status_id]}
+                                    Progress Status: {statusLabels[task.status_id]}
                                     <br />
                                     Title: {task.title}
                                     <br />
                                     Category: {task.category}
                                     <br />
                                     Purpose: {task.purpose_description}
-                                    <br />
                                     {task.due_date &&
                                         task.due_date.length > 1 && (
                                             <>
+                                            <br />
                                                 Goal Deadline:{" "}
-                                                {formatDate(task.due_date)}
+                                                {format(task.due_date, "MMM dd, yyyy h:mma (z)")}
                                             </>
                                         )}
                                     {task.completion_count >= 0 && (
                                         <>
+                                        <br/>
                                             Weekly Completion Count:{" "}
                                             {task.completion_count}
                                         </>
                                     )}
                                     <br />
-                                    Steps to Achievement: {task.achievement_steps}
+                                    Achievement Actions: {task.achievement_steps}
                                     <br />
                                 </li>
                             );

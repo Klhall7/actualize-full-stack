@@ -31,7 +31,7 @@ const UpcomingTasks = ({ tasks , navigate }) => {
                                 Goal: {task.title}
                                 <br/>
                                 <span>
-                                    Due By:{" "}
+                                Goal Deadline:{" "}
                                     {format(
                                         task.due_date,
                                         "MMM dd, yyyy h:mma (z)"

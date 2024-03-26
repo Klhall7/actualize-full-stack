@@ -74,6 +74,7 @@ const EditAndReturnTask = ({ task, onClose }) => {
         { value: 2, label: "In Progress" },
         { value: 3, label: "Completed" },
     ];
+    
 
     return (
         //defaultValue prevents unnecessary changes and helps with UI
@@ -85,7 +86,7 @@ const EditAndReturnTask = ({ task, onClose }) => {
                     flexDirection: "column",
                     border: "solid 2px red",
                 }}
-            > <span>Task {task.id}</span><br/>
+            > <span>You are editing Task {task.id}</span><br/>
                 <label>
                     Category:
                     <select name="category" required>

@@ -56,9 +56,9 @@ const LastTaskInteraction = () => {
                         <br />
                         Purpose: {array.key.goal.purpose_description}
                         <br />
-                        Status: {displayedStatus}
+                        Progress Status: {displayedStatus}
                         <br />
-                        Steps to Achievement: {array.key.goal.achievement_steps}
+                        Achievement Actions: {array.key.goal.achievement_steps}
                         <br />
                         {array.key.goal.due_date &&
                             array.key.goal.due_date.length > 1 && (
@@ -69,7 +69,7 @@ const LastTaskInteraction = () => {
                             )}
                         {array.key.goal.completion_count && (
                             <>
-                                Completion Count:{" "}
+                                Weekly Completion Count:{" "}
                                 {array.key.goal.completion_count}
                             </>
                         )}
