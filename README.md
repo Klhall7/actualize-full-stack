@@ -13,6 +13,7 @@ This project is for a task management and learning assistant targeted towards in
 [React Router v6.22.3](https://reacttraining.com/react-router) navigational components used for client side routing throughout the app. 
 [React Responsive Modal v6.1.0](https://react-responsive-modal.leopradel.com/) library used for UI when a logged in user creates and edits tasks from their dashboard. 
 [React Tooltip v5](https://react-tooltip.com/docs/getting-started) library used for giving user a guided experience when filling out forms on their dashboard
+[date-fns v3](https://date-fns.org/) library used for formatting dates and showing user upcoming tasks
 
 
 
