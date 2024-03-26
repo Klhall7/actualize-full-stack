@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from "react-tooltip";
 
 // eslint-disable-next-line react/prop-types
 const NewTaskForm = ({ onClose }) => {
@@ -67,9 +68,7 @@ const NewTaskForm = ({ onClose }) => {
         "Finances",
     ];
 
-    const statusOptions = [
-        { value: 1, label: "Not Started" }
-    ];
+    const statusOptions = [{ value: 1, label: "Not Started" }];
 
     return (
         //defaultValue prevents unnecessary changes and helps with UI
@@ -83,7 +82,9 @@ const NewTaskForm = ({ onClose }) => {
                 }}
             >
                 <p>
-                    You are creating a<span> new </span>Goal
+                    You are creating a<span> new </span>Goal.
+                    <br />
+                    Remember, you can always make changes later.
                 </p>
                 <label>
                     Category:
@@ -94,60 +95,77 @@ const NewTaskForm = ({ onClose }) => {
                             </option>
                         ))}
                     </select>
-                </label>{" "}
+                </label>
                 <label>
+                    {" "}
                     Purpose:
                     <textarea
                         type="text"
                         name="purpose_description"
-                        placeholder="why does this task matter to you and what defines successful completion"
+                        placeholder="define success"
                         required
+                        data-tooltip-id="purpose-tooltip-multiline"
+                        data-tooltip-html="Why is this goal important to you?<br />What do you want to achieve?"
+                        data-tooltip-place="top"
                     />
-                </label>{" "}
+                    <Tooltip id="purpose-tooltip-multiline" />
+                </label>
                 <label>
-                    Due Date (optional):
+                    Due Date:
                     <input
                         type="datetime-local"
                         name="date"
                         defaultValue=""
                         //string on formData submit then backend sets compatible timestamp
-                    />
-                </label>{" "}
+                        data-tooltip-id="date-tooltip-multiline"
+                        data-tooltip-html="Optional field to set a timeline priority for this goal.<br /> It can be a hard deadline or you can make it ongoing;<br />At the end of every time period (weekly, quarterly, daily etc.)<br />update the date to the next date you want to complete it by.<br /> Doing so encourage you to interact with the goal"
+                        data-tooltip-place="top"
+                    />{" "}
+                    <Tooltip id="date-tooltip-multiline" />
+                </label>
                 <label>
-                    Weekly Consistency Count (optional):
+                    Weekly Completion Count:
                     <input
                         type="number" //optional
                         name="completion_count"
                         min="0"
                         max="0"
-                        placeholder="if you would like to measure number of times you did something"
-                    />
-                </label>{" "}
+                        data-tooltip-id="consistency-tooltip-multiline"
+                        data-tooltip-html="Optional field to measure progress by tracking your consistency.<br /> For example, if you want to workout 3 times a week you<br /> would want this number to reach 3 by the end of the week.<br /> It will start at zero."
+                        data-tooltip-place="top"
+                    />{" "}
+                    <Tooltip id="consistency-tooltip-multiline" />
+                </label>
                 <label>
-                    Achievement Steps/Tasks:
+                    Steps to Achievement:
                     <textarea
                         name="achievement_steps"
-                        placeholder="identify at least one step to start your achieving your goal"
                         required
-                    />
-                </label>{" "}
+                        data-tooltip-id="achieve-tooltip-multiline"
+                        data-tooltip-html="Identify an action to start achieving this goal.<br /> How will you keep yourself accountable?<br />It could be a task, a set of tasks, or a reminder."
+                        data-tooltip-place="top"
+                    />{" "}
+                    <Tooltip id="achieve-tooltip-multiline" />
+                </label>
                 <label>
                     Informative Title:
                     <input
                         type="text"
                         name="title"
-                        placeholder="title should be short and informative. If its a measurable action for example run-1m-biweekly"
                         required
-                    />
-                </label>{" "}
+                        data-tooltip-id="title-tooltip-multiline"
+                        data-tooltip-html="Short yet informative title that aligns with your goal. <br />For example, 'workout-3 days a week' <br />The idea is to make it easy to identify"
+                        data-tooltip-place="top"
+                    />{" "}
+                    <Tooltip id="title-tooltip-multiline" />
+                </label>
                 <label>
-                    {" "}
                     Progress Status(default):
                     <select name="status_id" required>
                         {statusOptions.map((option) => (
                             <option
                                 key={option.value}
-                                value= {option.value}
+                                value={option.value}
                                 selected={option.value === 1}
                             >
                                 {option.label}
@@ -155,7 +173,7 @@ const NewTaskForm = ({ onClose }) => {
                         ))}
                     </select>
                 </label>
-                <button type="submit">Save and Create Task</button>{" "}
+                <button type="submit">Save and Create</button>{" "}
                 {errorMessage && (
                     <div className="error-container">
                         <p className="error-message">{errorMessage}</p>

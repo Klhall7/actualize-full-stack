@@ -69,7 +69,7 @@ const LastTaskInteraction = () => {
                             )}
                         {array.key.goal.completion_count && (
                             <>
-                                Weekly Completion Count:{" "}
+                                Completion Count:{" "}
                                 {array.key.goal.completion_count}
                             </>
                         )}

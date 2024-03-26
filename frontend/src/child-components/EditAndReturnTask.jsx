@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from "react-tooltip";
 
 /* eslint-disable react/prop-types */
 const EditAndReturnTask = ({ task, onClose }) => {
@@ -84,10 +85,7 @@ const EditAndReturnTask = ({ task, onClose }) => {
                     flexDirection: "column",
                     border: "solid 2px red",
                 }}
-            >
-                <p>
-                    You are editing <span>Task {task.id}</span>
-                </p>
+            > <span>Task {task.id}</span><br/>
                 <label>
                     Category:
                     <select name="category" required>
@@ -97,21 +95,20 @@ const EditAndReturnTask = ({ task, onClose }) => {
                             </option>
                         ))}
                     </select>
-                </label>{" "}
+                </label>
                 <label>
                     Title:
-                    <input type="text" name="title" defaultValue={task.title} />
-                </label>{" "}
-                <label>
-                    Purpose:
-                    <textarea
-                        name="purpose_description"
-                        defaultValue={task.purpose_description}
-                    />
-                </label>{" "}
+                    <input type="text" name="title" defaultValue={task.title} 
+                    data-tooltip-id="title-tooltip-multiline"
+                    data-tooltip-html="Does the title need to be updated?<br />it should be easy to identify the task and any deadlines"
+                    data-tooltip-place="top"/>
+                    <Tooltip id='title-tooltip-multiline'/>
+                </label><br/>
                 <label>
                     Progress Status:
-                    <select name="status_id" required>
+                    <select name="status_id" required 
+                    data-tooltip-id="status-tooltip"
+                    data-tooltip-content="Has your progress changed?">
                         {statusOptions.map((option) => (
                             <option
                                 key={option.value}
@@ -122,25 +119,42 @@ const EditAndReturnTask = ({ task, onClose }) => {
                             </option>
                         ))}
                     </select>
-                </label>{" "}
+                    <Tooltip id='status-tooltip'/>
+                </label>
                 <label>
-                    Weekly Consistency Count (optional):
+                    Purpose:
+                    <textarea
+                        name="purpose_description"
+                        defaultValue={task.purpose_description}
+                        data-tooltip-id="purpose-tooltip"
+                        data-tooltip-content="Has your desired outcome changed?"
+                        data-tooltip-place="top"
+                    /> <Tooltip id="purpose-tooltip"/>
+                </label>
+                <label>
+                    Completion Count(optional):
                     <input
                         type="number" //optional
                         name="completion_count"
                         min="0"
                         max="7"
                         defaultValue={task.completion_count}
-                    />
+                        data-tooltip-id="consistency-tooltip"
+                        data-tooltip-content="Tracking Consistency?"
+                        data-tooltip-place="top"
+                    /> <Tooltip id="consistency-tooltip"/>
                 </label>
                 <label>
-                    Due_Date (optional):
+                    Deadline (optional):
                     <input
                         type="datetime-local" //optional
                         name="date"
                         defaultValue={task.due_date}
                         //string on formData submit then backend sets compatible timestamp
-                    />
+                        data-tooltip-id="date-tooltip"
+                        data-tooltip-content="Need to add or adjust the deadline?"
+                        data-tooltip-place="top"
+                    /> <Tooltip id="date-tooltip"/>
                 </label>
                 <label>
                     Achievement Steps:
@@ -148,9 +162,13 @@ const EditAndReturnTask = ({ task, onClose }) => {
                         type="text"
                         name="achievement_steps"
                         defaultValue={task.achievement_steps}
-                    />
-                </label>
-                <button type="submit">Save and Submit</button>
+                        data-tooltip-id="achievement-tooltip-multiline"
+                        data-tooltip-html="Anything new to consider?<br/>
+                        Have you completed any steps?"
+                        data-tooltip-place="top"
+                    /> <Tooltip id="achievement-tooltip-multiline"/>
+                </label> 
+                <button type="submit">Save Changes</button>
             </form>
             {errorMessage && (
                 <div className="error-container">
