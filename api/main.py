@@ -87,7 +87,7 @@ def logout_user():
         handle_exception(e)
     return response
 
-@app.get(f"/profile/{id}") 
+@app.get("/profile/{id}") 
 async def get_profile_by_id(id: str):
     """Retrieves profile for current user - json object"""
     try:
@@ -199,6 +199,32 @@ async def refresh_token(request: Request):
     except Exception as e:
         handle_exception(e)
 
+@app.get("/tasks/date/{user_id}")
+async def get_user_tasks_date(user_id: str):
+    """Retrieves json object of user's tasks by due_date with task id"""
+    try:
+        tasks = supabase.table("tasks").select("due_date", "id").eq("user_id", user_id).execute()
+        return tasks
 
+    except Exception as e:
+        handle_exception(e)
 
+@app.get("/tasks/filter/{user_id}")
+async def get_tasks_by_query(user_id: str, column: str, value: str):
+    """Retrieves json object of user's task then filters through it based 
+    on provided column and value."""
+    try:
+        users_tasks = supabase.table("tasks").select("*").eq("user_id", user_id).execute()
+        data = users_tasks.data
+        
+        if column in ("status_id", "completion_count"):
+            try:
+                value = int(value)
+            except ValueError:
+                return {"error_detail": f"Invalid value format for {column} (must be an integer)."}
 
+        filtered_tasks = [task for task in data if task[column] == value]
+        return filtered_tasks
+
+    except Exception as e:
+        handle_exception(e)
