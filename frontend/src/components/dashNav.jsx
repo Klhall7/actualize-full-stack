@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles/dashNav.module.css";
 import avatar from '../images/default-profile.jpg';
-import placeholder from '../images/placeholder-image.jpeg';
+import placeholder from '../images/logo-placeholder.png';
 
 
 const DashNav = () => {

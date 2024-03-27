@@ -102,13 +102,13 @@ const ViewTasksByUser = () => {
                                                 {format(task.due_date, "MMM dd, yyyy h:mma (z)")}
                                             </>
                                         )}
-                                    {task.completion_count >= 0 && (
+                                    {/* {task.completion_count >= 0 && (
                                         <>
                                         <br/>
                                             Weekly Completion Count:{" "}
                                             {task.completion_count}
                                         </>
-                                    )}
+                                    )} */}
                                     <br />
                                     Achievement Actions: {task.achievement_steps}
                                     <br />
@@ -116,7 +116,7 @@ const ViewTasksByUser = () => {
                             );
                         })}
                     </ul>
-                    <Modal open={open} onClose={onCloseModal}>
+                    <Modal open={open} onClose={onCloseModal} style={{padding:"2rem"}}>
                     {open && task && (
                         <EditAndReturnTask
                             task={task}

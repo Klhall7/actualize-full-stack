@@ -1,0 +1,134 @@
+::selection {
+    background-color: #0e3308;
+}
+
+.container {
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left {
+    width: 20vw;
+    height: 65vh;
+    background: linear-gradient(to bottom, #0e3308ac, #023d48b1);
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form {
+    width: 30vw;
+    height: 65vh;
+    background: #0e330838;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+p {
+    color: #0e3308;
+    margin: 3rem 0;
+    font-size: 1 rem;
+}
+
+h4 {
+    color: #0e3308;
+    margin: 3rem 0;
+    font-size: 1.8rem;
+}
+
+input {
+    background-color: inherit;
+    border: none;
+    outline: none;
+}
+
+.checkbox {
+    margin: none;
+    border: none;
+    color: #0e3308ac;
+    border: none;
+    outline: none;
+}
+
+.email {
+    margin: 0.5rem 0;
+    padding: 1rem 0.5rem;
+    width: 20rem;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #0e3308ac;
+    transition: all 400ms;
+}
+
+.email:hover {
+    background-color: rgba(245, 222, 179, 0.445);
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.password {
+    margin: 0.5rem 0;
+    padding: 1rem 0.5rem;
+    width: 20rem;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #0e3308ac;
+    transition: all 400ms;
+}
+
+.password:hover {
+    background-color: rgba(245, 222, 179, 0.445);
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.btn {
+    height: 2rem;
+    width: 10rem;
+    margin-top: 3rem;
+    background-color: #0e3308;
+    color: wheat;
+    border-radius: 0.5rem;
+    border: none;
+    font-size: 1rem;
+    transition: all 400ms;
+    box-shadow: 0 0 10px #1b666b, 0 0 10px #1b666b;
+}
+
+.btn:hover {
+    background-color: #22271c;
+    box-shadow: none;
+}
+
+.link {
+    color: #023d48ea;
+}
+
+.link:hover {
+    color: wheat;
+}
+
+.homeLink {
+    text-decoration: none;
+    color: wheat;
+    margin: none;
+}
+.homeLink:hover {
+    color: rgb(17, 81, 163);
+}
+
+img {
+    height: 4rem;
+    width: auto;
+    margin: none;
+}

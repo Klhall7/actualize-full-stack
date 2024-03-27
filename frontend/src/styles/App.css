@@ -1,4 +1,42 @@
+html {
+    background: linear-gradient(to bottom, #93b98c43, #a5bbbead);
+}
+
+::selection {
+    background: rgb(104, 188, 133);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
-    background: linear-gradient(to bottom, #8abe8143, #9cbcc2ad);
-    align-items: center;
+    /* base styling */
+    box-sizing: inherit;
+    font-family: "Manrope", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 16px;
+    line-height: normal;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    body {
+        font-size: calc(14px + 0.2vw);
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1920px) {
+    body {
+        font-size: calc(18px + 0.2vw);
+    }
+}
+
+@media (min-width: 300px) and (max-width: 767px) {
+    body {
+        font-size: calc(12px + 0.2vw);
+    }
 }

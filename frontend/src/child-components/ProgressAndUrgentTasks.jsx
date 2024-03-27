@@ -85,19 +85,19 @@ const ProgressAndUrgentTasks = () => {
 
     return (
         <>
-            <div style={{ flexDirection: "column" }}>
-                <h2>Task Progress</h2>
+            <div className="progressContainer" style={{ flexDirection: "column" }}>
+                <h4>Task Progress</h4>
                 {/* conditionally to display you have no tasks and show start creating tasks button */}
                 {isLoadingProgress && (
-                    <p className="loading-message">
+                    <p className="loadingMessage">
                         Retrieving the status of your tasks, please be
                         patient...
                     </p>
                 )}
                 {!isLoadingProgress &&
                     errorMessage && ( //Display error if present
-                        <div className="error-container">
-                            <p className="error-message">{errorMessage}</p>
+                        <div className="errorContainer">
+                            <p className="errorMessage">{errorMessage}</p>
                         </div>
                     )}{" "}
                 {!isLoadingProgress && progressData && (
@@ -110,6 +110,7 @@ const ProgressAndUrgentTasks = () => {
                                     max={Math.max(
                                         ...Object.values(progressData)
                                     )}
+                                    className={`progress.${statusLabels[status].replace(/(\w)(\w*)/g, (_, g1, g2) => g1.toUpperCase() + g2.toLowerCase())}`}
                                 />
                             </div>
                         ))}
@@ -117,18 +118,21 @@ const ProgressAndUrgentTasks = () => {
                 )}
             </div>
 
-            <div>
-                <h2>Upcoming Tasks</h2>
+            <div className="urgentContainer">
+                <div className="urgentTitleContainer">
+                <h4>Upcoming Tasks</h4>
+                <h5>These are due within the next 5 days</h5>
+                </div>
                 {isLoadingUrgent && (
-                    <p className="loading-message">
+                    <p className="loadingMessage">
                         Retrieving your tasks and checking dates. Please be
                         patient...
                     </p>
                 )}
                 {!isLoadingUrgent &&
                     errorMessage && ( //Display error if present
-                        <div className="error-container">
-                            <p className="error-message">{errorMessage}</p>
+                        <div className="errorContainer">
+                            <p className="errorMessage">{errorMessage}</p>
                         </div>
                     )}
                 {!isLoadingUrgent && (

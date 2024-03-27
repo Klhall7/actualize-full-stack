@@ -71,7 +71,6 @@ const NewTaskForm = ({ onClose }) => {
     const statusOptions = [{ value: 1, label: "Not Started" }];
 
     return (
-        //defaultValue prevents unnecessary changes and helps with UI
         <>
             <form
                 onSubmit={handleSubmit}
@@ -90,7 +89,7 @@ const NewTaskForm = ({ onClose }) => {
                     Category:
                     <select name="category" required>
                         {categories.map((category) => (
-                            <option key={category} value={category}>
+                            <option key={category} selected={category}>
                                 {category}
                             </option>
                         ))}
@@ -115,7 +114,6 @@ const NewTaskForm = ({ onClose }) => {
                     <input
                         type="datetime-local"
                         name="date"
-                        defaultValue=""
                         //string on formData submit then backend sets compatible timestamp
                         data-tooltip-id="date-tooltip-multiline"
                         data-tooltip-html="Optional field to set a timeline priority for this goal.<br /> It can be a hard deadline or you can make it ongoing;<br />At the end of every time period (weekly, quarterly, daily etc.)<br />update the date to the next date you want to complete it by.<br /> Doing so encourage you to interact with the goal"
@@ -124,9 +122,10 @@ const NewTaskForm = ({ onClose }) => {
                     <Tooltip id="date-tooltip-multiline" />
                 </label>
                 <label>
-                    Weekly Completion Count:
+                    {/* Weekly Completion Count: */}
                     <input
-                        type="number" //optional
+                        type="hidden" //need to fix  tracking purpose before allowing creation
+                        // type="number" //optional
                         name="completion_count"
                         min="0"
                         max="0"
@@ -165,7 +164,6 @@ const NewTaskForm = ({ onClose }) => {
                         {statusOptions.map((option) => (
                             <option
                                 key={option.value}
-                                value={option.value}
                                 selected={option.value === 1}
                             >
                                 {option.label}

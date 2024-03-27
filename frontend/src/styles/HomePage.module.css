@@ -1,0 +1,90 @@
+.sectionContainer {
+    padding: 1rem;
+    font-weight: 300;
+    font-style: normal;
+
+    .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        font-size: medium;
+
+        h1 {
+            color: red;
+        }
+
+        h2 {
+            color: green;
+        }
+
+        h3 {
+            color: blue;
+            max-width: 50%;
+            text-align: center;
+        }
+    }
+
+    .features {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        border: 1px solid red;
+
+        h2 {
+            color: red;
+        }
+
+        .feature-container {
+            display: flex;
+            border: 1px solid black;
+
+            h3 {
+                color: green;
+            }
+
+            .feature-container {
+                border: solid 2px blue;
+
+                .left-feature {
+                    border: solid 2px red;
+
+                    h3 {
+                        color: red;
+                    }
+                }
+
+                .right-feature {
+                    border: solid 2px yellow;
+
+                    p {
+                        color: yellow;
+                    }
+
+                    ul {
+                        list-style: none;
+
+                        li {
+                            color: yellow;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .cta {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        border: solid 3px green;
+
+        p {
+            color: green;
+        }
+
+        button {
+            color: green;
+        }
+    }
+}

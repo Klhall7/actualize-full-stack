@@ -48,7 +48,7 @@ const AsideMenu = () => {
             >
                 +
             </button>
-            <Modal open={open} onClose={handleCloseModal} center>
+            <Modal open={open} onClose={handleCloseModal} center style={{padding:"2rem"}}>
                 <div className="modal-content">
                     <NewTaskForm
                         //form handles it's own submission

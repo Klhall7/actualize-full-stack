@@ -1,46 +1,59 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import placeholder from "../images/logo-placeholder.png";
+import styles from "../styles/homeNav.module.css"
 
 const HomeNav = () => {
-    const [dropdownOpen, setDropdownOpen] = useState(false); 
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
 
     return (
-        <nav className="">
-            {/* replace "" with styles mod once created */}
-            <div id="logo">
-                <img src="" alt="Actualize App Logo" />
-                {/* Replace with logo path once saved */}
-            </div>
-            <ul id="ul-dropdown">
-                <Link to="">
-                    {" "}
-                    {/* replace with path to about us page when setup */}
-                    <li>About</li>
-                </Link>
-                <li>
-                    <button type="button" onClick={toggleDropdown}>
-                        Get Started
-                    </button>
-                    {dropdownOpen && (
-                        <ul className="dropdown-options">
-                            <Link to="/login">
-                                <li>Login</li>
-                            </Link>
-                            <Link to="/register">
-                                <li>Create Account</li>
-                            </Link>
-                            <Link to="/dashboard">
-                                <li>Go to My Dashboard(must be logged in)</li>
-                            </Link>
+        <nav className={styles.navContainer}
+        >
+            <div className={styles.leftContainer}>
+                <img
+                    src={placeholder}
+                    alt="Actualize App Logo"
+                    // style={{ height: "2rem", width: "auto" }}
+                />
 
-                        </ul>
-                    )}
-                </li>
-            </ul>
+                <Link className="about-link" to="">
+                    {/* replace with path to about us page when setup */}
+                    About
+                </Link>
+            </div>
+
+            <div className={styles.rightDropdownContainer}>
+                <button
+                    type="button"
+                    onClick={toggleDropdown}
+                >
+                    Get Started
+                </button>
+
+                {dropdownOpen && (
+                    <ul id="ul-dropdown-options">
+                        <li>
+                            <Link to="/login">
+                                Login
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/register">
+                                Create Account
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/dashboard">
+                                My Dashboard
+                            </Link>
+                        </li>
+                    </ul>
+                )}
+            </div>
         </nav>
     );
 };

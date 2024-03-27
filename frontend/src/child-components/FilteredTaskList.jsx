@@ -64,18 +64,18 @@ const FilteredTaskList = ({
                                 )}
                             </>
                         )}
-                        {task.completion_count >= 0 && (
+                        {/* {task.completion_count >= 0 && (
                             <>
                                 Weekly Completion Count: {task.completion_count}
                             </>
-                        )}
+                        )} */}
                         <br />
                         Achievement Actions: {task.achievement_steps}
                         <br />
                     </li>
                 ))}
             </ul>
-            <Modal open={open} onClose={onCloseModal}>
+            <Modal open={open} onClose={onCloseModal} style={{padding:"2rem"}}>
                 {open && selectedTask && (
                     <EditAndReturnTask
                         task={selectedTask}

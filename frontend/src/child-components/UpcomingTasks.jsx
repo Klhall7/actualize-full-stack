@@ -3,9 +3,10 @@ import { format, isBefore } from "date-fns";
 
 const filterUpcomingTasks = (tasks) => {
     const today = new Date();
+    const upcomingDeadline = new Date(today.getTime() + 5 * 24 * 60 * 60 * 1000);
     return tasks.filter((task) => {
         // Check if due date exists and is in the future
-        return task.due_date && isBefore(task.due_date, today);
+        return task.due_date && isBefore(task.due_date, upcomingDeadline);
     });
 };
 

@@ -4,16 +4,14 @@ import FooterMenu from "../components/FooterMenu"
 const Layout = () => {
     return (
         <>
-            <Outlet id="outlet" />
-            {/* need to add global styling */}
-            <FooterMenu/>
+            <Outlet/>
+            <footer>
+                <FooterMenu />
+            </footer>
         </>
     );
 };
 
 export default Layout;
 
-// import useAccessToken from "../components/useAccessToken";
-// import { Navigate } from "react-router-dom";
 
-// return isProtected ? <Outlet /> : <Navigate to="/login" />;

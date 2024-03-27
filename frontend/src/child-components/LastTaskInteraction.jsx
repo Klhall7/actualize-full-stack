@@ -67,15 +67,15 @@ const LastTaskInteraction = () => {
                                     {formatDate(array.key.goal.due_date)}
                                 </>
                             )}
-                        {array.key.goal.completion_count && (
+                        {/* {array.key.goal.completion_count && (
                             <>
                                 Weekly Completion Count:{" "}
                                 {array.key.goal.completion_count}
                             </>
-                        )}
+                        )} */}
                     </li>
                 </ul>
-                <Modal open={open} onClose={onCloseModal}>
+                <Modal open={open} onClose={onCloseModal} style={{padding:"2rem"}}>
                     {open && task && (
                         <EditAndReturnTask
                             task={task}

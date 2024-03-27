@@ -133,9 +133,10 @@ const EditAndReturnTask = ({ task, onClose }) => {
                     /> <Tooltip id="purpose-tooltip"/>
                 </label>
                 <label>
-                    Completion Count(optional):
+                    {/* Completion Count(optional): */}
                     <input
-                        type="number" //optional
+                        type="hidden" //need to fix logic of this input 
+                        // type="number" //optional
                         name="completion_count"
                         min="0"
                         max="7"
