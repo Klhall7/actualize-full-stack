@@ -1,4 +1,5 @@
 import { Link, useLoaderData } from "react-router-dom";
+import logo from "../images/actualize-logo-g-transp.png"
 //need to create and import styling
 
 //need logic for displaying data, to allow user to add a username for greeting on login
@@ -33,7 +34,7 @@ console.log(info)
     return (
         <>
             <Link to="/dashboard" id="logo-clickable">
-                <img src="" alt="clickable Logo to my dashboard" />
+                <img src={logo} alt="clickable Logo to my dashboard" />
                 <p id="dashboard-link">Back to My Dashboard</p>
             </Link>
 

@@ -10,7 +10,7 @@ const HomePage = () => {
             <div className={styles.sectionContainer}>
                 <section className={styles.hero}>
                     <h1>Welcome to Actualize</h1>
-                    <h2>Turn your goals into reality. Live intentionally.</h2>
+                    {/* <h2>Turn your goals into reality. Live intentionally.</h2> */}
                     <h3>
                         Struggling to stick to your goals? Set yourself up for
                         success! <br /> Actualize is a companion for your
@@ -24,12 +24,12 @@ const HomePage = () => {
 
                 <section className={styles.features}>
                     <h2>How does it work?</h2>
-                    <div className="feature-container">
-                        <div className="left-feature">
-                            <h3>Create an Account, Login and Start Creating</h3>
+                    <div className={styles.featureContainer}>
+                        <div className={styles.leftFeature}>
+                            <h3>Create an Account<br/> Login <br/> and Start! →</h3>
                         </div>
                         <div className="feature-divider"> </div>
-                        <div className="right-feature">
+                        <div className={styles.rightFeature}>
                             <p>
                                 Simple or complex, Craft your goal with
                                 intention:
