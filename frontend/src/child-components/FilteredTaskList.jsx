@@ -62,14 +62,15 @@ const FilteredTaskList = ({
                                     task.due_date,
                                     "MMM dd, yyyy h:mma (z)"
                                 )}
+                                <br />
                             </>
+                            
                         )}
                         {/* {task.completion_count >= 0 && (
                             <>
                                 Weekly Completion Count: {task.completion_count}
                             </>
                         )} */}
-                        <br />
                         Achievement Actions: {task.achievement_steps}
                         <br />
                     </li>
