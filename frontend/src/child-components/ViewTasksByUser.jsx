@@ -60,11 +60,10 @@ const ViewTasksByUser = () => {
         
     return (
         <>
-            <h2>All Tasks</h2>
             {isLoading && (
                 <p className="loading-message">
-                    Retrieving and loading all of your created tasks. Please be
-                    patient...
+                    🔎 Retrieving and loading all of your created tasks. Please be
+                    patient... 
                 </p>
             )}
             {!isLoading &&
@@ -73,8 +72,17 @@ const ViewTasksByUser = () => {
                         <p className="error-message">{errorMessage}</p>
                     </div>
                 )}{" "}
-            {!isLoading && data && (
+            {!isLoading && data.length <= 0  && (
+                    <div className="no-tasks">
+                        <p> You don&apos;t have any tasks or goals yet 🤔 <br />   
+                            Use the add button (+) on your dashboard menu to
+                            start creating some!<br/> They will load here for your viewing pleasure 😎
+                        </p>
+                    </div>
+                )}{" "}
+            {!isLoading && data.length > 0 && (
                 <div>
+                    <h2>Your Tasks</h2>
                     <ul className={styles.taskContainer}>
                         {data.map((task, index) => {
                             return (

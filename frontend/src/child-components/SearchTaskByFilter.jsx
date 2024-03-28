@@ -5,7 +5,8 @@ const SearchTaskByFilter = () => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [filteredTasks, setFilteredTasks] = useState({});
-    const [loadingMsg, setLoadingMsg] = useState("waiting for search...");
+    const defaultMsg = String("Hello fabulous, start a search ☝ Your results will be here ")
+    const [loadingMsg, setLoadingMsg] = useState(defaultMsg);
 
     const [open, setOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
@@ -55,6 +56,7 @@ const SearchTaskByFilter = () => {
         { value: 3, label: "Completed" },
     ];
     const columnOptions = [
+        { value: " ", label: "make a selection"},
         { value: "title", label: "title" },
         { value: "category", label: "category" },
         { value: "status_id", label: "progress status" },
@@ -88,11 +90,14 @@ const SearchTaskByFilter = () => {
                     onChange={handleChange}
                 >
                     {columnOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
+                        <option key={option.value} value={option.value}
+                            >
                             {option.label}
                         </option>
                     ))}
                 </select>
+                {selectedColumn && ( 
+                <>
                 <label htmlFor="value">
                     {selectedColumn === "title" ? (
                         <>
@@ -132,7 +137,9 @@ const SearchTaskByFilter = () => {
                         </>
                     ) : null}
                 </label>
-                <button type="submit">Search</button>
+                </>
+                )}
+                <button type="submit" disabled={!selectedColumn}>Search</button>
                 {isLoading ? (
                     <p className="loading-message">{loadingMsg}</p>
                 ) : filteredTasks.length > 0 ? (
@@ -145,10 +152,10 @@ const SearchTaskByFilter = () => {
                             setSelectedTask={setSelectedTask}
                             selectedTask={selectedTask}
                         />{" "}
-                        {/* Pass state(s) as props */}
                     </div>
                 ) : (
-                    <p>Sorry, no matches were found for your search criteria 🫤 <br/> Please try again..</p>
+                    <p>Sorry, no matches were found for your search criteria 🧐<br/>
+                    Check your spelling and case discrepancies then try again...</p>
                 )}
                 {errorMessage && (
                     <p className="error-message">{errorMessage}</p>

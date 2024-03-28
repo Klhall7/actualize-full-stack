@@ -86,12 +86,10 @@ const ProgressAndUrgentTasks = () => {
     return (
         <>
             <div className="progressContainer" style={{ flexDirection: "column" }}>
-                <h4>Task Progress</h4>
-                {/* conditionally to display you have no tasks and show start creating tasks button */}
                 {isLoadingProgress && (
                     <p className="loadingMessage">
                         Retrieving the status of your tasks, please be
-                        patient...
+                        patient... 🫨
                     </p>
                 )}
                 {!isLoadingProgress &&
@@ -100,8 +98,9 @@ const ProgressAndUrgentTasks = () => {
                             <p className="errorMessage">{errorMessage}</p>
                         </div>
                     )}{" "}
-                {!isLoadingProgress && progressData && (
+                {!isLoadingProgress && progressData.length >= 0 && (
                     <div>
+                        <h4>Task Progress</h4>
                         {Object.entries(progressData).map(([status, count]) => (
                             <div key={status}>
                                 <label>{statusLabels[status]}</label>
@@ -120,8 +119,6 @@ const ProgressAndUrgentTasks = () => {
 
             <div className="urgentContainer">
                 <div className="urgentTitleContainer">
-                <h4>Upcoming Tasks</h4>
-                <h5>These are due within the next 5 days</h5>
                 </div>
                 {isLoadingUrgent && (
                     <p className="loadingMessage">
@@ -138,14 +135,17 @@ const ProgressAndUrgentTasks = () => {
                 {!isLoadingUrgent && (
                     <div>
                         {tasks.length > 0 ? (
+                            <>
+                            <h4>Upcoming Tasks</h4>
+                            <h5>These are due within the next 5 days</h5>
                             <UpcomingTasks tasks={tasks} navigate={navigate} />
+                            </>
                         ) : (
                             <p>
-                                Oh no! 😱 <br />
-                                You don&apos;t have any tasks or goals yet!
+                                Oh no! 😱 You don&apos;t have any tasks or goals yet!
                                 <br />
-                                use the + button on your dashboard menu to
-                                create one.
+                                Use the add button (+) on your dashboard menu to
+                                create one.<br/> You can come back to see your progress 😄
                             </p>
                         )}
                     </div>

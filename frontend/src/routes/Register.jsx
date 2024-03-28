@@ -1,5 +1,6 @@
 import { Form, Link, redirect } from "react-router-dom";
 import { useState } from "react";
+import { useActionData } from "react-router-dom";
 import styles from "../styles/BasicForm.module.css";
 import logo from "../images/actualize-logo-g-transp.png"
 
@@ -8,7 +9,7 @@ export async function action({ request }) {
     const email = credentials.get("email");
     const password = credentials.get("password");
     const requestData = { email, password };
-    console.log("added credentials:", requestData); //form data entry check
+    console.log("credentials sent:", requestData); //form data entry check
 
     try {
         const url = `${import.meta.env.VITE_SOURCE_URL}/register`;
@@ -24,11 +25,12 @@ export async function action({ request }) {
 
         if (response.ok) {
             const authResponse = await response.json();
-            console.log("register auth response:", authResponse); //view jwt and session
+            console.log("successful register auth response:", authResponse); //view jwt and session
             const accessToken = authResponse.session.access_token;
             localStorage.clear(); //precaution
             localStorage.setItem("accessToken", accessToken);
             return redirect("/login");
+
         } else {
             const errorText = await response.text();
             const errorDetail = JSON.parse(errorText);
@@ -43,6 +45,7 @@ export async function action({ request }) {
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const response = useActionData()
 
     const togglePassVisibility = () => {
         setShowPassword(!showPassword);
@@ -97,6 +100,9 @@ const Register = () => {
                         </Link>
                     </p>
                 </Form>
+                {response && typeof response === 'string' && ( 
+                <p className="errorMessage">{response}</p> 
+                )}
             </div>
         </>
     );

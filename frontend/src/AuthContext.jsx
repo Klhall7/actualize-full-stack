@@ -7,7 +7,7 @@ export function AuthProvider({ children }) {
     const [isAuth, setIsAuth] = useState(false);
 
     useEffect(() => {
-        if (localStorage.getItem("accessToken")) {
+        if (localStorage.getItem("accessToken") && localStorage.getItem("current_user_email")) {
             setIsAuth(true);
         } else {
             setIsAuth(false);
