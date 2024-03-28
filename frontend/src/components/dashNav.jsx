@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles/dashNav.module.css";
-import avatar from '../images/default-profile.jpg';
-import placeholder from '../images/logo-placeholder.png';
-
+import avatar from "../images/default-profile.jpg";
+import logo from "../images/actualize-logo-g-transp.png";
 
 const DashNav = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
-
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -17,12 +15,11 @@ const DashNav = () => {
         <nav className={styles.navContainer}>
             <div>
                 <Link to="/" id="logo-clickable">
-                    <img 
+                    <img
                         className={styles.img}
-                        src={placeholder} 
+                        src={logo}
                         alt="clickable Actualize App Logo to go Home"
-                    /> {/* Replace with logo */}
-                    
+                    />
                 </Link>
             </div>
             <div className={styles.dropdownContainer}>
@@ -34,21 +31,19 @@ const DashNav = () => {
                     {/* Replace w/ stored img */}
                     <img
                         className={styles.avatar}
-                        src={avatar}  
+                        src={avatar}
                         alt="your avatar"
-                    /> 
-                </button>   
+                    />
+                </button>
                 {dropdownOpen && (
                     <ul className={styles.dropdownList}>
                         <li>
-                            <Link to="/profile" 
-                            className={styles.dropdownLink}>
+                            <Link to="/profile" className={styles.dropdownLink}>
                                 Profile
                             </Link>
                         </li>
                         <li>
-                            <Link to="/logout" 
-                            className={styles.dropdownLink}>
+                            <Link to="/logout" className={styles.dropdownLink}>
                                 Logout
                             </Link>
                         </li>

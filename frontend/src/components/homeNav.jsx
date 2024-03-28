@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import placeholder from "../images/logo-placeholder.png";
+import logo from "../images/actualize-logo-g-transp.png"
 import styles from "../styles/homeNav.module.css"
 
 const HomeNav = () => {
@@ -15,9 +15,8 @@ const HomeNav = () => {
         >
             <div className={styles.leftContainer}>
                 <img
-                    src={placeholder}
+                    src={logo}
                     alt="Actualize App Logo"
-                    // style={{ height: "2rem", width: "auto" }}
                 />
 
                 <Link className="about-link" to="">
@@ -59,25 +58,3 @@ const HomeNav = () => {
 };
 
 export default HomeNav;
-
-//module styling note
-// #ul-dropdown button {
-//     /* Style the button as desired (background, padding, etc.) */
-//   }
-
-//   #ul-dropdown button:after {
-//     content: "";
-//     display: inline-block;
-//     width: 0px;
-//     height: 0px;
-//     border-left: 5px solid transparent;
-//     border-right: 5px solid transparent;
-//     border-bottom: 8px solid #ccc; /* Adjust color as needed */
-//     vertical-align: middle;
-//     margin-left: 5px; /* Adjust spacing as needed */
-//     transition: transform 0.3s ease-in-out;
-//   }
-
-//   #ul-dropdown:hover button:after {
-//     transform: rotate(-90deg);
-//   }

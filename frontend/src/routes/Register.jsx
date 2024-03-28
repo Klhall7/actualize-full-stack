@@ -1,7 +1,7 @@
 import { Form, Link, redirect } from "react-router-dom";
 import { useState } from "react";
 import styles from "../styles/BasicForm.module.css";
-import placeholder from '../images/logo-placeholder.png';
+import logo from "../images/actualize-logo-g-transp.png"
 
 export async function action({ request }) {
     const credentials = await request.formData();
@@ -52,7 +52,7 @@ const Register = () => {
             <div className={styles.container}>
                 <div className={styles.left}>
                     <Link to="/" id="logo-clickable">
-                        <img src={placeholder} alt="clickable Logo to homepage" />
+                        <img src={logo} alt="clickable Logo to homepage" />
                     </Link>
                     <Link to="/">
                         <p className={styles.homeLink}>Back to Home</p>

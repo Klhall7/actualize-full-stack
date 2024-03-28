@@ -1,8 +1,10 @@
 import { Form, Link, useActionData, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../AuthContext";
+import logo from "../images/actualize-logo-g-transp.png"
 
 export async function action({ request }) {
+
     const credentials = await request.formData();
     const email = credentials.get("email");
     const password = credentials.get("password");
@@ -29,6 +31,7 @@ export async function action({ request }) {
             const sessionExpire = authResponse.session.expires_at;
             const refreshToken = authResponse.session.refresh_token;
             localStorage.clear(); //precaution
+            localStorage.setItem("current_user_email", authResponse.user.email)
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("loginId", userId);
             localStorage.setItem("session_expires_at", sessionExpire);
@@ -38,11 +41,12 @@ export async function action({ request }) {
             const errorText = await response.text();
             const errorDetail = JSON.parse(errorText);
             console.log(errorDetail.detail);
-            return errorDetail.detail;
+            return errorDetail
         }
     } catch (error) {
         console.error("ERROR: ", error);
-        return "Sorry, something went wrong.";
+        const newError = `sorry, something went wrong ${error}`
+        return newError;
     }
 }
 
@@ -76,7 +80,7 @@ const Login = () => {
         <>
             <div>
                 <Link to="/" id="logo-clickable">
-                    <img src="" alt="clickable Logo to homepage" />
+                    <img src={logo} alt="clickable Logo to homepage" />
                     <p>Back to Home</p>
                 </Link>
                 {/* Replace with logo img path once saved */}

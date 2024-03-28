@@ -14,6 +14,7 @@ origins = [
     "http://127.0.0.1:8000",
     "http://localhost:*/",
     "http://localhost/*",
+    "https://actualize-k.netlify.app"
 ]
 
 app.add_middleware(  #handle cors for security

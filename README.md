@@ -50,7 +50,7 @@ JWTs unlock access to authorized data in Supabase.
 
 ### Deployment and Hosting
 
-[Platform.sh](https://auth.api.platform.sh/) is a Platform-as-a-Service (PaaS). I have an account with them for the application's hosting and deployment.
+[Platform.sh](https://auth.api.platform.sh/) backend server hosting
+[Netlify](https://app.netlify.com/) frontend deployment
 
--   For Hosting, it takes care of server management, security, scaling, and maintenance.
--   For Deployment, my account is connected to my [Github Repository](https://github.com/Klhall7/actualize-full-stack) and it automatically deploys my code whenever I push changes to the repository.
+Both accounts are connected to my [Github Repository](https://github.com/Klhall7/actualize-full-stack) and it automatically deploys my code whenever I push changes to the repository branch.
