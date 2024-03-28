@@ -64,7 +64,6 @@ const FilteredTaskList = ({
                                 )}
                                 <br />
                             </>
-                            
                         )}
                         {/* {task.completion_count >= 0 && (
                             <>
@@ -76,7 +75,11 @@ const FilteredTaskList = ({
                     </li>
                 ))}
             </ul>
-            <Modal open={open} onClose={onCloseModal} style={{padding:"2rem"}}>
+            <Modal
+                open={open}
+                onClose={onCloseModal}
+                style={{ padding: "2rem" }}
+            >
                 {open && selectedTask && (
                     <EditAndReturnTask
                         task={selectedTask}
