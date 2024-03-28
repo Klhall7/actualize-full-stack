@@ -11,7 +11,8 @@
         font-size: medium;
 
         h1 {
-            color: red;
+            color: black;
+            font-size: large;
         }
 
         h2 {
@@ -19,8 +20,8 @@
         }
 
         h3 {
-            color: blue;
-            max-width: 50%;
+            color: black;
+            max-width: 70%;
             text-align: center;
         }
     }
@@ -29,44 +30,52 @@
         display: flex;
         align-items: center;
         align-content: center;
+        flex-direction: column;
         border: 1px solid red;
 
         h2 {
             color: red;
         }
 
-        .feature-container {
+        p {
+            width: 50%;
+            text-align: center;
+        }
+
+        .featureContainer {
             display: flex;
             border: 1px solid black;
+            align-items: center;
+            width: 70%;
 
-            h3 {
+            h2 {
                 color: green;
             }
 
-            .feature-container {
-                border: solid 2px blue;
+            .leftFeature {
+                border: solid 2px red;
+                width: 110%;
+                text-align: center;
 
-                .left-feature {
-                    border: solid 2px red;
+                h3 {
+                    color: red;
+                    font-size: medium;
+                }
+            }
 
-                    h3 {
-                        color: red;
-                    }
+            .rightFeature {
+                border: solid 2px yellow;
+
+                p {
+                    font-size: medium;
+                    width: 100%;
                 }
 
-                .right-feature {
-                    border: solid 2px yellow;
+                ul {
+                    list-style: none;
 
-                    p {
+                    li {
                         color: yellow;
-                    }
-
-                    ul {
-                        list-style: none;
-
-                        li {
-                            color: yellow;
-                        }
                     }
                 }
             }
