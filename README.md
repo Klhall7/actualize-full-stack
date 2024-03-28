@@ -21,10 +21,10 @@ This project is tool for goal creation, task management learning targeted toward
 
 ## User Authentication
 
-Handling Separation Overview:
-Supabase handles user accounts and JWTs.
-FastAPI acts as a secure intermediary
-JWTs unlock access to authorized data in Supabase.
+### Handling Separation Overview:
+- Supabase handles user accounts and JWTs.
+- FastAPI acts as a secure intermediary
+- JWTs unlock access to authorized data in Supabase.
 
 1. Sign Up:
 
